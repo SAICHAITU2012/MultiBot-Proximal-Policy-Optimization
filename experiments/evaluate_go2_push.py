@@ -66,7 +66,7 @@ def main():
     # z<0.15 counter never sees real falls).
     first_disp = torch.zeros(args.episodes, device=gs.device)
     first_life_done = torch.zeros(args.episodes, dtype=torch.bool, device=gs.device)
-    true_falls = 0
+    true_falls = 0  # ALL non-timeout terminations (not just first per env)
 
     with torch.inference_mode():
         for t in range(600):  # 12 s episodes
@@ -78,11 +78,12 @@ def main():
             disp = (env.crate_pos[:, 0] - x0).abs()  # displacement along the push axis
             max_disp = torch.maximum(max_disp, disp)
             new_life = d.bool() & ~first_life_done
+            falls_now = d.bool() & ~extras["time_outs"].bool()
+            true_falls += int(falls_now.sum())
             if bool(new_life.any()):
                 idx = new_life.nonzero(as_tuple=True)[0]
                 first_disp[idx] = disp[idx].detach()
                 first_life_done |= new_life
-                true_falls += int(new_life.sum())
             c = env.robot.get_contacts(with_entity=env.crate)
             if c is not None and "valid_mask" in c:
                 vm = c["valid_mask"].bool()
