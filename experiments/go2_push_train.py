@@ -24,7 +24,7 @@ from machine_guard import Guard
 from rsl_rl.runners import OnPolicyRunner
 
 
-def get_cfgs():
+def get_cfgs(fall_penalty=4.0):
     env_cfg = {
         "num_actions": 12,
         "default_joint_angles": {
@@ -48,7 +48,7 @@ def get_cfgs():
         "action_scale": 0.25,
         "simulate_action_latency": True,
         "clip_actions": 100.0,
-        "fall_penalty": 4.0,
+        "fall_penalty": fall_penalty,
     }
     obs_cfg = {
         "obs_scales": {
@@ -122,6 +122,11 @@ def main():
     p.add_argument("--fresh", action="store_true")
     p.add_argument("--resume", action="store_true",
                    help="continue from the newest checkpoint in the log dir")
+    p.add_argument("--fall-penalty", type=float, default=4.0,
+                   help="non-timeout termination penalty (default 4.0 = the historical value; "
+                        "12.0 = the r2 fall-slam fix: break-even slam displacement 3.3 cm -> 10 cm)")
+    p.add_argument("--warm-start-ckpt", default=None,
+                   help="explicit warm-start checkpoint (default: the original go2-push-s7/model_577.pt)")
     args = p.parse_args()
 
     log_dir = Path(__file__).resolve().parent.parent / "logs" / args.exp_name
@@ -131,7 +136,7 @@ def main():
     log_dir.mkdir(parents=True, exist_ok=True)
     print(f"[push] log_dir={log_dir}")
 
-    env_cfg, obs_cfg, reward_cfg, push_cfg = get_cfgs()
+    env_cfg, obs_cfg, reward_cfg, push_cfg = get_cfgs(fall_penalty=args.fall_penalty)
     train_cfg = get_train_cfg(args.exp_name)
     with open(log_dir / "cfgs.pkl", "wb") as f:
         pickle.dump((env_cfg, obs_cfg, reward_cfg, push_cfg, train_cfg), f)
@@ -163,7 +168,8 @@ def main():
     # P3b: warm start from the CURRENT BEST PUSHER (model_577) — it pushes
     # 16/16 at the mission geometry (while falling); the fall penalty now
     # shapes the stable gait. Straight load: the dims match exactly (49->49).
-    walk_ckpt = Path("/Users/saichaitu/Desktop/Genesis/team_lab/logs/go2-push-s7/model_577.pt")
+    walk_ckpt = (Path(args.warm_start_ckpt) if args.warm_start_ckpt else
+                 Path("/Users/saichaitu/Desktop/Genesis/team_lab/logs/go2-push-s7/model_577.pt"))
     if args.warm_start and resume_it == 0 and walk_ckpt.exists():
         walk_sd = torch.load(walk_ckpt, map_location=gs.device, weights_only=False)["actor_state_dict"]
         actor = runner.alg.actor if hasattr(runner.alg, "actor") else runner.alg._actor

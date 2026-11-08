@@ -57,6 +57,16 @@ def main():
     max_disp = torch.zeros(args.episodes, device=gs.device)
     ever_contact = torch.zeros(args.episodes, dtype=torch.bool, device=gs.device)
     fall_steps = torch.zeros(args.episodes, dtype=torch.int, device=gs.device)
+    # mission-relevant metrics (added 2026-11-08 after the fall-slam finding):
+    # the aggregate max_disp accumulates across auto-reset lives, so a policy
+    # that trips and body-slams every ~0.5 s can look "pushed" without ever
+    # completing ONE clean engagement. first_disp = crate displacement at the
+    # env's FIRST termination (one life); true_falls = pitch/roll/error
+    # terminations (the auto-reset removes the fallen dog the same step, so a
+    # z<0.15 counter never sees real falls).
+    first_disp = torch.zeros(args.episodes, device=gs.device)
+    first_life_done = torch.zeros(args.episodes, dtype=torch.bool, device=gs.device)
+    true_falls = 0
 
     with torch.inference_mode():
         for t in range(600):  # 12 s episodes
@@ -67,6 +77,12 @@ def main():
             fall_steps += (env.base_pos[:, 2] < 0.15).to(torch.int)
             disp = (env.crate_pos[:, 0] - x0).abs()  # displacement along the push axis
             max_disp = torch.maximum(max_disp, disp)
+            new_life = d.bool() & ~first_life_done
+            if bool(new_life.any()):
+                idx = new_life.nonzero(as_tuple=True)[0]
+                first_disp[idx] = disp[idx].detach()
+                first_life_done |= new_life
+                true_falls += int(new_life.sum())
             c = env.robot.get_contacts(with_entity=env.crate)
             if c is not None and "valid_mask" in c:
                 vm = c["valid_mask"].bool()
@@ -86,17 +102,24 @@ def main():
 
     moved = int((max_disp > 0.01).sum())
     pushed = int((max_disp >= 0.15).sum())
+    first_pushed = int((first_disp >= 0.15).sum())
+    print(f"[eval-push] exp={args.exp_name} ckpt={ckpt} episodes={args.episodes}")
     print(f"[eval-push] REACHED+CONTACT (verified): {int(ever_contact.sum())}/{args.episodes}")
-    print(f"[eval-push] PUSHED (displacement >= 0.15 m): {pushed}/{args.episodes}")
+    print(f"[eval-push] PUSHED (aggregate, across reset lives >= 0.15 m): {pushed}/{args.episodes}")
+    print(f"[eval-push] FIRST-LIFE PUSHED (one clean engagement >= 0.15 m): {first_pushed}/{args.episodes}")
+    print(f"[eval-push] TRUE FALLS (terminations): {true_falls} across {args.episodes} envs in 600 steps")
     print(f"[eval-push] moved at all (>1 cm): {moved}/{args.episodes}")
     print(f"[eval-push] max displacement: mean {float(max_disp.mean()):+.3f} m | "
           f"median {float(max_disp.median()):+.3f} m | best {float(max_disp.max()):+.3f} m")
+    print(f"[eval-push] first-life displacement: mean {float(first_disp.mean()):+.3f} m | "
+          f"best {float(first_disp.max()):+.3f} m")
     print(f"[eval-push] FALL STEPS per episode: {[int(v) for v in fall_steps]} "
-          f"(the episodes with any fall: {int((fall_steps > 0).sum())}/{args.episodes})")
+          f"(NOTE: same-step auto-reset hides true falls — see TRUE FALLS)")
     verdict = ("STRONG" if pushed >= args.episodes * 0.5 else
                "WORKING" if pushed >= args.episodes * 0.25 else
                "EMERGING" if moved >= args.episodes * 0.5 else "NOT LEARNED")
-    print(f"[eval-push] VERDICT: {verdict}")
+    print(f"[eval-push] VERDICT (aggregate): {verdict} | first-life verdict: "
+          f"{'STRONG' if first_pushed >= args.episodes * 0.5 else 'WORKING' if first_pushed >= args.episodes * 0.25 else 'EMERGING' if first_pushed > 0 else 'NONE'}")
     gs.destroy()
 
 
