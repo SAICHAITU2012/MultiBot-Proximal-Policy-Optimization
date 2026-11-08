@@ -496,33 +496,30 @@ class CoLocatedTeam:
             gs.morphs.Box(size=(0.08, 0.03, 0.05), pos=(-1.55, 1.55, 0.435), fixed=False),
         )
         # mission packages: FREE rigid boxes (MUST be added before scene.build —
-        # entities cannot be added post-build in Genesis). Heavy crates: a light
-        # 18 cm box gets kicked away by the walking gait; a heavy crate slides
-        # like a sled and gives the push controller stable contact.
+        # entities cannot be added post-build in Genesis).
+        # CANONICAL PACKAGE (master directive 2026-11-08): 7 kg and the
+        # established 15 cm package geometry — 0.35 x 0.35 x 0.15 m, the EXACT
+        # object the Go2 push policies train on (s5/s7/r1: shovable-not-kickable,
+        # chest-height engagement). The earlier "training-exact parcel" (0.08 x
+        # 0.03 x 0.05 m, 0.12 kg) made the Go2's push training OOD for the
+        # mission object (~58x mass, ~100x volume) — see INVESTIGATION_LOG.md,
+        # "THE CONFIGURATION AUDIT". The 0.12 kg parcel remains the PANDA's
+        # perch object (grasp stage), which is a separate interaction.
+        # spawn z = half-height + 5 mm.
         self.extra_box_entities = []
         for pos in (extra_boxes or []):
-            # LOW FLAT crate (0.06 m tall, 7 kg): the Go2's learned gait has a
-            # ~5-15 cm paw swing — a 25 cm crate face TRIPS the trot mid-stride
-            # (paw strikes the face). A 6 cm crate slides under the gait like
-            # the 5 cm training box, while the 7 kg mass keeps it shovable-not-
-            # kickable. spawn z = half-height + 5 mm.
-            # THE TRAINING-EXACT PARCEL (the decisive fix): the push policy
-            # was trained on THIS EXACT object — the 0.08 x 0.03 x 0.05 m box
-            # at 0.12 kg (the grasp_env's default density). Every heavier/
-            # larger crate (3-7 kg, 15-25 cm) broke the interaction: the gait
-            # tripped on tall faces, straddled low ones, and 58x the mass
-            # exceeded the gait's press force. The delivery packages are
-            # small parcels — physically what a quadruped courier carries.
             self.extra_box_entities.append(
                 self.scene.add_entity(
-                    gs.morphs.Box(size=(0.08, 0.03, 0.05), pos=(pos[0], pos[1], 0.03), fixed=False)
+                    gs.morphs.Box(size=(0.35, 0.35, 0.15), pos=(pos[0], pos[1], 0.08), fixed=False)
                 )
             )
 
         self.scene.build(n_envs=1)
 
-        # post-build: the training-exact parcel needs no mass override —
-        # its default density (0.12 kg) matches the training box exactly
+        # post-build: the 15 cm crate at 7 kg (v1.4.5 Box has no density kwarg;
+        # set_mass post-build — the same convention as the training env)
+        for _crate in self.extra_box_entities:
+            _crate.set_mass(7.0)
 
         # parcel: default density ~0.14 kg — graspable and liftable. High
         # friction on parcel+post: the reach policy was trained against a FIXED

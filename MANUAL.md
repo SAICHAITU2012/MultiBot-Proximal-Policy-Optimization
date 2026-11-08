@@ -174,3 +174,41 @@ Options: `--packages 2` · `--planner rule` (an ollama model name instead of
 2. Always through the guarded trainers (thermal pauses + session caps + checkpoints).
 3. Never install system-level anything; conda/uv envs only.
 4. Check `guard.csv` after long runs (throttle events = pause reasons).
+
+## 15. The repaired push env: regression tests + retraining (2026-11-08)
+
+CONTEXT: the push env's reset had two bugs (Nov 6 20:48 rewrite) that broke every
+push training run after it — the per-step empty-mask reset zeroed the obs/action
+buffers (the policy's actions were never executed: "statue"), and the dog spawned
+at z=0 (a 5-step toss-loop). Fixed 2026-11-08; the full story is in
+INVESTIGATION_LOG.md ("ROOT CAUSE FOUND").
+
+### The regression tests (run after ANY change to go2_push_env.py)
+```bash
+cd ~/Desktop/Genesis/team_lab/experiments && conda activate genesis
+python test_env_reset.py                     # expect: ALL TESTS PASS
+python test_env_reset.py --negative-control  # expect: 3/3 FAIL (validates the tests)
+```
+T1 empty-mask reset changes nothing (robot velocity + obs/action buffers + the
+actions actually execute); T2 spawn z == base_init_pos z (0.42); T3 zero-action
+survival without terminations.
+
+### The retraining run (go2-push-r1)
+```bash
+# session 1 (auto-stops at the 42-min guard cap, checkpoints every 50 iters)
+python go2_push_train.py -e go2-push-r1 -b 512 --max-iterations 2400 --session-minutes 42
+# later sessions (continues from the newest checkpoint, no re-warm-start):
+python go2_push_train.py -e go2-push-r1 --resume --max-iterations 2400 --session-minutes 42
+# watch: tail -f ~/Desktop/Genesis/team_lab/logs/go2-push-r1.log
+```
+Warm start: the ORIGINAL go2-push-s7/model_577.pt (md5 6e8249a8...) — the
+pre-rewrite checkpoint. Configs: unchanged (15 cm crate, 7 kg, 0.65 m spawn,
+3.1 m goal, ±75° band).
+
+### The fresh-seed sweep (checkpoint selection — NEVER newest-by-default)
+```bash
+python evaluate_go2_push.py --exp-name go2-push-r1 --ckpt model_400 --episodes 16
+python evaluate_go2_push.py --exp-name go2-push-r1 --ckpt model_800 --episodes 16
+# ... every 400 iters. Acceptance gates: moved 16/16 (basic) AND
+# pushed >=0.15 m >=8/16 AND falls 0/16 (the real gates).
+```
