@@ -71,7 +71,7 @@ def main():
     with torch.inference_mode():
         for t in range(600):  # 12 s episodes
             a = policy(obs)
-            obs, r, d, _ = env.step(a)
+            obs, r, d, extras = env.step(a)
             # the FALL MEASUREMENT: the base below 0.15 m (the standing gait's
             # base ~0.30-0.42; a fallen/tripped dog's base < 0.15)
             fall_steps += (env.base_pos[:, 2] < 0.15).to(torch.int)
@@ -103,6 +103,10 @@ def main():
 
     moved = int((max_disp > 0.01).sum())
     pushed = int((max_disp >= 0.15).sum())
+    # a policy that never terminates: its first life IS the whole window
+    never_done = ~first_life_done
+    if bool(never_done.any()):
+        first_disp[never_done] = max_disp[never_done]
     first_pushed = int((first_disp >= 0.15).sum())
     print(f"[eval-push] exp={args.exp_name} ckpt={ckpt} episodes={args.episodes}")
     print(f"[eval-push] REACHED+CONTACT (verified): {int(ever_contact.sum())}/{args.episodes}")

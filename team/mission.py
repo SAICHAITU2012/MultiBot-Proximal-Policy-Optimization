@@ -86,14 +86,17 @@ class Mission:
                 mp_ckpt_dir, "model_900.pt")
             self.bb.publish("mission", "event", "manip_policy_loaded",
                             {"ckpt_dir": str(mp_ckpt_dir / "model_900.pt")})
-        # plug in the learned crate-push policy. Pinned: go2-push-s7/model_577 —
+        # plug in the learned crate-push policy. Pinned (2026-11-08): go2-push-s5/model_800 —
+        # the pre-rewrite champion, VERIFIED on the canonical 15 cm / 7 kg
+        # geometry: 8/16 pushed >=0.15 m, 0 true falls, 16/16 moved (the policy
+        # gates met; cross-env eval in INVESTIGATION_LOG.md).
         # sweep-verified best of the direction-robust curriculum (6/16 fresh
         # episodes pushed >=0.15 m, 16/16 moved, mean +0.127 m; later
         # checkpoints DEGRADED — pinned deliberately).
-        push_ckpt_dir = TEAM_LAB / "logs/go2-push-s7"
-        if (push_ckpt_dir / "model_577.pt").exists():
+        push_ckpt_dir = TEAM_LAB / "logs/go2-push-s5"
+        if (push_ckpt_dir / "model_800.pt").exists():
             self.team.robots["go2"].push_policy = colo_env.load_actor_from_log(
-                push_ckpt_dir, "model_577.pt")
+                push_ckpt_dir, "model_800.pt")
             self.bb.publish("mission", "event", "push_policy_loaded",
                             {"ckpt_dir": str(push_ckpt_dir / "model_577.pt")})
 
@@ -144,6 +147,8 @@ class Mission:
                                      location=DROP_ZONE, priority=1))
             self.board.tasks[f"fetch{i}"]["box_pos_fn"] = (
                 lambda ent=pkg["entity"]: [float(v) for v in ent.get_pos().cpu().numpy().flatten()])
+            self.board.tasks[f"fetch{i}"]["box_quat_fn"] = (
+                lambda ent=pkg["entity"]: [float(v) for v in ent.get_quat().cpu().numpy().flatten()])
             self.bb.publish("mission", "event", "package_located",
                             {"package": pkg["id"], "observed": [round(v, 2) for v in observed]})
 

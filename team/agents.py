@@ -87,6 +87,8 @@ class TaskAgent:
         """Called every control period; advances task execution."""
         if self.task is not None:
             self._execute(t)
+        if getattr(self, "FALL_RECOVERY", False):
+            self._fall_recovery(t)
         if t - self._last_status_t >= 2.0:  # status every 2 s
             self._last_status_t = t
             self.bb.publish(self.id, "status", "status_report", self.status())
@@ -160,11 +162,59 @@ def _dump_obs(robot, st, box, goal):
 class Go2TaskAgent(TaskAgent):
     """Navigation by commanding the learned locomotion policy (vx, vy, wz)."""
 
+    FALL_RECOVERY = True      # the base-class hook: recover from a fallen state
     STOP_RADIUS = 0.8          # m — within this, command (0,0,0)
     APPROACH_RADIUS = 0.4      # m — tight arrival at the push start point
     PUSH_STANDOFF = 0.45       # m behind the box before pushing
     PUSH_SPEED = 0.2           # m/s — gentle push (0.5 kicks the box away)
     MAX_YAW_CMD = 0.8
+
+    def _fall_recovery(self, t: float):
+        """Sim-only stand-up recovery primitive (the honest limitation: the real
+        Go2 runs a dedicated recovery controller — outside this project's
+        training scope; the simulation equivalent resets the base to standing
+        IN PLACE, preserving xy and yaw, then holds a 2-s settle). Triggered
+        when the base stays below 0.15 m for >2 s during any task. Mission run 1
+        (2026-11-08) showed a fallen dog otherwise 'walks' (drags) under the nav
+        policy for the rest of the mission — 865 s of dead time."""
+        z = float(self.robot.base_pos[0, 2])
+        if getattr(self, "_recovering", False):
+            if t < self._recover_until:
+                self.robot.commands = _cmd(0.0, 0.0, 0.0)
+                self.robot.entity.control_dofs_position(
+                    self.robot.default_dof_pos[0],
+                    dofs_idx_local=self.robot.motors_dof_idx)
+                return
+            self._recovering = False
+            self._fall_since = None
+            self.bb.publish(self.id, "event", "dog_recovered",
+                            {"method": "sim_stand_up_primitive",
+                             "z_after": round(float(self.robot.base_pos[0, 2]), 3)})
+            if self.task is not None:  # restart the current task's phase machine
+                self._pushing = False
+                self._settle_until = None
+                self._stroke_best_d = None
+                self._begin(self.task)
+            return
+        if z < 0.15:
+            if getattr(self, "_fall_since", None) is None:
+                self._fall_since = t
+            elif t - self._fall_since > 2.0:
+                st = self.robot.get_state()
+                yaw = self._yaw_from_quat(st["quat"])
+                q = self.robot.entity.get_qpos()[0].cpu().clone()
+                q[2] = 0.42  # standing base height (the spawn convention)
+                q[3] = math.cos(yaw / 2.0)
+                q[4] = 0.0
+                q[5] = 0.0
+                q[6] = math.sin(yaw / 2.0)
+                q[7:19] = self.robot.default_dof_pos[0]
+                self.robot.entity.set_qpos(q.unsqueeze(0), zero_velocity=True)
+                self._recovering = True
+                self._recover_until = t + 2.0
+                self.robot.external_control = False
+                self.bb.publish(self.id, "event", "dog_fell_recovering",
+                                {"z_before": round(z, 3), "t": round(t, 1)})
 
     def _begin(self, task: dict):
         self.phase = "approach"
@@ -207,9 +257,22 @@ class Go2TaskAgent(TaskAgent):
         v = speed * min(1.0, d / 1.0)  # decelerate over the last meter: the
         # walking gait at 0.5 m/s TRIPS at crate contact (front paws stop,
         # body pitches); slow arrivals match the training's at-rest starts
-        vx = max(-0.5, min(1.0, v * math.cos(ye)))
-        vy = max(-0.5, min(0.5, v * math.sin(ye)))
-        wz = max(-1.0, min(1.0, 1.5 * ye))
+        if abs(ye) > math.pi / 2:
+            # BEHIND-TARGET MOTION (the endgame lesson pair, 2026-11-08): pure
+            # backward is dead (~0.01 m/s) and the forward creep-turn ARCS
+            # meters off-line (the nav's yaw response is ~0.02-0.1 rad/s — the
+            # endgame dog wandered 0.6 m north in 1000 s and never
+            # re-contacted a crate sitting 1.6 cm outside delivery). The nav
+            # policy's STRAFE (vy +-0.5) is fully trained and yaw-free:
+            # strafe-dominant motion toward the target's side with a token
+            # forward creep and the turn command — no dead modes.
+            vx = 0.10
+            vy = max(-0.5, min(0.5, 0.35 * (1.0 if ye > 0 else -1.0)))
+            wz = max(-1.0, min(1.0, 1.5 * ye))
+        else:
+            vx = max(-0.5, min(1.0, v * math.cos(ye)))
+            vy = max(-0.5, min(0.5, v * math.sin(ye)))
+            wz = max(-1.0, min(1.0, 1.5 * ye))
         self.robot.commands = _cmd(vx, vy, wz)
 
     def _push(self, st, pos, yaw, t):
@@ -219,6 +282,12 @@ class Go2TaskAgent(TaskAgent):
         while isinstance(box_raw[0], (list, tuple)):
             box_raw = box_raw[0]
         box = (float(box_raw[0]), float(box_raw[1]))
+        box_yaw = None
+        qfn = self.task.get("box_quat_fn")
+        if qfn is not None:
+            q = qfn()  # wxyz
+            box_yaw = math.atan2(2.0 * (q[0] * q[3] + q[1] * q[2]),
+                                 1.0 - 2.0 * (q[2] ** 2 + q[3] ** 2))
 
         # NOTE on crate routing: waypoint legs were tried and REVERTED — the
         # push policy was trained with the goal ~2.2 m from the crate; a
@@ -241,11 +310,11 @@ class Go2TaskAgent(TaskAgent):
                 _dump_torch.save(_dump, "../logs/push_obs_dump.pt")
                 self.robot._obs_dumped = True
 
-            self._learned_push(st, pos, yaw, box, self.goal, box_d, t)
+            self._learned_push(st, pos, yaw, box, self.goal, box_d, t, box_yaw=box_yaw)
         else:
             self._hand_push(st, pos, yaw, t, box, self.goal, box_d)
 
-    def _learned_push(self, st, pos, yaw, box, goal, box_d, t):
+    def _learned_push(self, st, pos, yaw, box, goal, box_d, t, box_yaw=None):
         """FACE-ON push: the dog walks straight at the crate from wherever it
         is and presses it away from itself. The delivery zone accepts the
         crate from any bearing (radius 0.55), so the push direction follows
@@ -268,23 +337,104 @@ class Go2TaskAgent(TaskAgent):
         elif bx_d < self._best_box_d - 0.1:
             self._best_box_d = bx_d
             self._last_stall_t = t
-        elif t - self._last_stall_t > 20.0:
-            self._finish({"states": getattr(self, "_history", []),
-                          "note": f"the crate stalled at {bx_d:.2f} m from the goal — "
-                                  f"the push policy cannot move it further",
-                          "box_goal_distance": round(bx_d, 3)})
+        elif t - self._last_stall_t > 45.0:
+            # END-GAME PERSISTENCE (mission run 3 lesson, 2026-11-08): the crate
+            # stalled 0.57 m from the zone (2 cm outside delivery) because this
+            # timer killed the fetch mid-re-approach and nothing re-assigns a
+            # finished task — 600 s of idle deadlock followed. A crate short of
+            # the zone is never abandoned. Inside 0.9 m this timer also yields
+            # nothing (continuous push — see the stroke-stall branch); outside,
+            # cycle the stroke retry until the mission budget ends.
+            self._best_box_d = None
+            self._last_stall_t = t
+            self._pushing = False
+            self.robot.external_control = False
+            self.bb.publish(self.id, "event", "push_retry",
+                            {"task": self.task["id"], "stage": "task_stall",
+                             "box_goal_distance": round(bx_d, 2)})
             return
 
-        # FACE-ON NAVIGATION: walk straight at the crate (the stop at contact
-        # distance); the dog's heading converges to the travel direction (the
-        # goto's holonomic control) — the dog arrives FACING the crate.
+        # ZONE-ALIGNED POSITIONING (runs at ANY distance — mission-seed-2 lesson:
+        # a dog 0.3 m from the crate on the WRONG side is inside the old
+        # d_crate>0.55 guard and pushes from the wrong bearing forever). The
+        # dog must be BEHIND the crate (opposite the zone) AND within 0.15 m
+        # of the crate->zone line; otherwise walk to the stand point 0.6 m
+        # behind the crate, swinging wide when the straight path would clip
+        # the crate (a repositioning bump shoves the crate the wrong way).
         d_crate = math.dist((pos[0], pos[1]), [bx, by])
-        if d_crate > 0.55:
+        # POSITIONING runs ONLY between strokes (never mid-push: the seeds-2
+        # lesson — a mid-push position test yanks control from the active
+        # stroke as soon as the crate drifts, and the dog stops applying push
+        # actions entirely). The stroke runs its full course; the stall/retry
+        # ends it; THEN the positioning decides: realign, or creep to contact.
+        if not getattr(self, "_pushing", False):
             if getattr(self, "_external_nav", True):
                 self.robot.external_control = False  # the nav policy executes
-            self._goto(pos, yaw, (bx, by), on_arrive=lambda: None,
-                       stop_radius=0.5, speed=0.4)
-            return
+            zx, zy = goal[0], goal[1]
+            czx, czy = bx - zx, by - zy
+            L = math.hypot(czx, czy) + 1e-9
+            line_dx, line_dy = -czx / L, -czy / L     # the unit vector crate -> zone
+            wx, wy = pos[0] - bx, pos[1] - by         # crate -> dog
+            along = wx * line_dx + wy * line_dy       # <0 = behind the crate (correct side)
+            perp = abs(-wx * line_dy + wy * line_dx)  # the lateral offset from the line
+            stand = (bx - line_dx * 0.6, by - line_dy * 0.6)
+            # HEADING IS PART OF POSITION (the -123.2-degree lesson): a dog
+            # standing behind the crate but FACING AWAY passes every distance
+            # test, then the settle starts a stroke whose first obs are OOD
+            # (the crate behind) — geometry_lost fires instantly, the retry
+            # returns to the same spot, forever. The heading must be part of
+            # the in-position test so the goto (strafe-dominant + turn
+            # branches) actually rotates the dog.
+            if box_yaw is not None and abs(math.atan2(
+                    math.sin(box_yaw), math.cos(box_yaw))) > math.radians(10):
+                # YAW-AWARE FACE POINT (the stall probe, 2026-11-08): a crate
+                # yawed 27 deg SHEDS the pushing dog — the straight push slides
+                # along the yawed face until the dog clears the corner, then
+                # the crate sits with ZERO contacts and the dog parks on the
+                # zone side. Re-approach the EAST face's center (the face away
+                # from the zone) with a 0.35 m standoff: the contact lands on
+                # the face center and the push follows the face's inward
+                # normal (<= 30 deg off the zone line — the virtual goal and
+                # the delivery region absorb it).
+                fy = box_yaw + math.pi  # the east-face outward normal
+                stand = (bx + math.cos(fy) * (0.175 + 0.35),
+                         by + math.sin(fy) * (0.175 + 0.35))
+            d_stand = math.dist((pos[0], pos[1]), stand)
+            # two-tier alignment: in the end-game (box within 0.8 m of the zone)
+            # a 0.28 m lateral offset alone keeps the crate outside the 0.55 m
+            # delivery circle — the final strokes must aim AT the zone point
+            perp_gate = 0.20 if bx_d < 0.8 else 0.35
+            in_position = (along < -0.05) and (perp < perp_gate)
+            if not in_position and d_stand > 0.3:
+                target = stand
+                if d_crate < 0.9:
+                    # the straight path would clip the crate: swing wide via a
+                    # point 1.0 m from the crate, on the dog's side of the line
+                    seg = (stand[0] - pos[0], stand[1] - pos[1])
+                    Ls2 = seg[0] ** 2 + seg[1] ** 2 + 1e-9
+                    tc = max(0.0, min(1.0, ((bx - pos[0]) * seg[0] + (by - pos[1]) * seg[1]) / Ls2))
+                    closest = (pos[0] + tc * seg[0], pos[1] + tc * seg[1])
+                    if math.dist(closest, (bx, by)) < 0.5:
+                        side = 1.0 if (wx * (-line_dy) + wy * line_dx) >= 0 else -1.0
+                        target = (bx - line_dy * side * 1.0, by + line_dx * side * 1.0)
+                if getattr(self, "_stand_since", None) is None:
+                    self._stand_since = t
+                    self._stand_start = (pos[0], pos[1])
+                elif (t - self._stand_since > 12.0
+                      and math.dist((pos[0], pos[1]), self._stand_start) < 0.2):
+                    self._stand_since = None  # stuck: fall back to face-on this tick
+                    self._goto(pos, yaw, (bx, by), on_arrive=lambda: None,
+                               stop_radius=0.5, speed=0.4 if d_crate > 0.9 else 0.15)
+                    return
+                self._goto(pos, yaw, target, on_arrive=lambda: None,
+                           stop_radius=0.25, speed=0.4 if math.dist((pos[0], pos[1]), target) > 1.0 else 0.15)
+                return
+            # in position (or at the stand point): creep to contact range
+            self._stand_since = None
+            if d_crate > 0.55:
+                self._goto(pos, yaw, (bx, by), on_arrive=lambda: None,
+                           stop_radius=0.5, speed=0.4 if d_crate > 0.9 else 0.15)
+                return
 
         # IN CONTACT RANGE: hand off to the push policy (the settle first:
         # the joints to default + a 1.5 s hold — the training spawn state)
@@ -305,9 +455,25 @@ class Go2TaskAgent(TaskAgent):
             self.bb.publish(self.id, "event", "push_phase",
                             {"task": self.task["id"], "mode": "learned"})
 
-        # THE PUSH: the learned policy presses forward (it was trained on the
-        # 12 cm crate at this exact contact distance)
-        obs = self._build_push_obs(st, box, goal)
+        # THE PUSH: the learned policy presses forward. VIRTUAL GOAL (the s5-era
+        # finding: goal_rel < 2 m freezes the policy — its training distribution
+        # is 2.2±0.15 m): feed a moving virtual goal 2.2 m from the crate along
+        # the crate->zone line so the push stays in-distribution through the
+        # end-game. Delivery remains a REAL-zone entry event (the 0.55 m check
+        # runs every tick; the crate never needs to stop).
+        # DRIFT-COMPENSATED VIRTUAL GOAL: the pushing gait drifts the crate
+        # NORTH by a systematic +0.2-0.3 m over a 2+ m haul (measured across
+        # 6 mission seeds — an off-center-contact + gait-yaw bias). Aim the
+        # virtual goal 0.25 m SOUTH of the zone so the drifted crate LANDS in
+        # the delivery circle. The delivery check itself stays on the REAL,
+        # unmodified zone.
+        aim = (goal[0], goal[1] - 0.25)
+        zg = math.dist((bx, by), aim)
+        if zg > 1e-6:
+            vgoal = (bx + (aim[0] - bx) / zg * 2.2, by + (aim[1] - by) / zg * 2.2)
+        else:
+            vgoal = (goal[0], goal[1])
+        obs = self._build_push_obs(st, box, vgoal)
         action = robot.push_policy(obs)
         robot.apply_action(action)
 

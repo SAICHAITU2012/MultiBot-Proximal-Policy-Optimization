@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """
 mission_controlled.py — the controlled mission test per the advisor's protocol:
-the exact 15 cm crate config + the current M0b checkpoint (model_1200), with
-full measurement instrumentation: the crate trajectory (5 s sampling), the
-strokes, the retries, the falls, the net displacement, the delivery state.
-No training/geometry changes during the test.
+the canonical 15 cm crate / 7 kg config + the pinned push policy, with full
+measurement instrumentation: the crate trajectory (5 s sampling), the strokes,
+the retries, the falls, the net displacement, the delivery state.
+
+--seed N (2026-11-08): the mission is otherwise fully deterministic (fixed
+spawns + deterministic policies — three unseeded runs are bit-identical, which
+demonstrates determinism, not reproducibility). A seed jitters each package's
+spawn by +-0.15 m in x/y (the task itself is unchanged), giving genuinely
+independent runs for the 3/3 reproducibility gate.
 """
 
 import sys, math
@@ -13,20 +18,37 @@ from pathlib import Path
 TL = Path("/Users/saichaitu/Desktop/Genesis/team_lab")
 sys.path.insert(0, str(TL)); sys.path.insert(0, str(TL / "experiments")); sys.path.insert(0, str(TL / "team"))
 
+import argparse
 import torch
 import genesis as gs
 
 import mission as M
 
+ap = argparse.ArgumentParser()
+ap.add_argument("--seed", type=int, default=0, help="0 = the fixed canonical layout; N>0 = jittered spawns")
+args = ap.parse_args()
+
 gs.init(backend=gs.cpu, logging_level="error", performance_mode=True)
 m = M.Mission(n_packages=1, planner_name="rule", max_steps=10)
+if args.seed > 0:
+    g = torch.Generator().manual_seed(args.seed)
+    for pkg in m.packages:
+        ent = pkg["entity"]
+        jx = (float(torch.rand(1, generator=g)) - 0.5) * 0.30
+        jy = (float(torch.rand(1, generator=g)) - 0.5) * 0.30
+        q = ent.get_qpos()[0].cpu().clone()
+        q[0] += jx
+        q[1] += jy
+        ent.set_qpos(q.unsqueeze(0), zero_velocity=True)
+        pkg["spawn"] = (pkg["spawn"][0] + jx, pkg["spawn"][1] + jy, pkg["spawn"][2])
+        print(f"[TEST] seed {args.seed}: pkg spawn jittered by ({jx:+.3f}, {jy:+.3f})")
 crate = m.packages[0]["entity"]
 go2 = m.team.robots["go2"]
 ag = m.agents["go2"]
 m._lp = -1e9
 
 x_spawn = float(crate.get_pos()[0, 0])
-print(f"[TEST] crate spawn x={x_spawn:.3f} | policy: go2-push-m0b/model_1200 | 15 cm crate, 7 kg")
+print(f"[TEST] crate spawn x={x_spawn:.3f} | seed={args.seed} | policy: go2-push-s5/model_800 | 15 cm crate, 7 kg")
 
 samples = []
 falls = 0
@@ -68,6 +90,11 @@ art = sorted(L.glob("mission_*"), key=lambda p: p.stat().st_mtime)[-1]
 metrics = (art / "metrics.txt").read_text() if (art / "metrics.txt").exists() else "n/a"
 print(f"\n[TEST] === FINAL (artifacts: {art.name}) ===")
 print(metrics)
+print("\n[TEST] === LAST 20 BLACKBOARD EVENTS ===")
+_hist = list(m.bb.history)[-20:]
+for ev in _hist:
+    print(f"[BB] t~{ev.get('t', '?')} {ev.get('from', '?')}/{ev.get('kind', '?')} {ev.get('type', '?')}: "
+          f"{str(ev.get('data', ''))[:160]}")
 cp_final = [float(v) for v in crate.get_pos().cpu().numpy().flatten()]
 net = math.hypot(cp_final[0] - x_spawn, cp_final[1] - float(m.packages[0]["spawn"][1]))
 print(f"[TEST] NET crate displacement from spawn: {net:.3f} m (spawn x={x_spawn:.3f}, final x={cp_final[0]:.3f})")
