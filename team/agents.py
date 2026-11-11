@@ -651,6 +651,13 @@ class PandaTaskAgent(TaskAgent):
                 self.robot.obj = parcel
             task["obj_half"] = (0.04, 0.015, 0.03)
             task["parcel_spawn_z"] = float(self.robot.obj.get_pos()[0, 2])
+            # THE COMPLETION-CHECK KEY FIX (2026-11-11, M4 diagnosis): the
+            # mission sets "parcel_start_x" while the completion check read
+            # "parcel_spawn_xy" with a default that re-captured the CURRENT
+            # position every call — disp was 0 forever and the task could
+            # only complete via the z-drop path. Capture the spawn xy HERE.
+            task["parcel_spawn_xy"] = (float(self.robot.obj.get_pos()[0, 0]),
+                                       float(self.robot.obj.get_pos()[0, 1]))
         self._grasp_confirmed = False
         self._grasp_announced = False
         self.robot.external_control = True  # exclusive: no colo-tick double-apply
@@ -766,10 +773,14 @@ class PandaTaskAgent(TaskAgent):
         # never learned to press), so once REACHED a scripted extension takes
         # over: press along the hand->object direction and drive the parcel to
         # whichever slide stop is opposite. Walls confine it: launch-proof.
-        if parcel and self.state in ("reached", "pushing"):
-            if self.state == "reached":
-                self._set_state("pushing", t)
-                self._push_start_x = float(obj.get_pos()[0, 0])
+        if (parcel and self.state in ("reached", "pushing")
+                and getattr(self.robot, "manip_policy", None) is None):
+            # LEGACY SCRIPTED PRESS — only when no trained manip policy exists.
+            # (2026-11-11 M4 diagnosis: this path UNCONDITIONALLY returned for
+            # every parcel, so the trained P1b policy below was DEAD CODE — the
+            # arm pressed gently forever toward the OLD slide-era end stops
+            # (x<=-1.60 / >=-1.18) that no longer exist, with no stall limit,
+            # and parcel_pick could never complete: picked 0 in every run.)
             import torch as _torch
             import genesis as _gs
             tip = self._fingertip_mid()

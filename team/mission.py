@@ -196,7 +196,18 @@ class Mission:
         for rid, tid in assignments.items():
             task = self.board.get(tid)
             agent = self.agents[rid]
-            if agent.task is None and task["status"] == "assigned":
+            # CLAIM-ON-APPLY (2026-11-11, M6): the guard required
+            # task["status"] == "assigned", but open tasks are "open" — the
+            # rule planner mutates the status inside its own plan() (so it
+            # always worked) while the LLM planner returns a pure mapping
+            # whose assignments were silently dropped (planner_decisions 0 in
+            # every LLM run). Any planner's assignments must be claimable here.
+            if agent.task is None and task["status"] in ("open", "assigned"):
+                # accept BOTH claim styles: the rule planner pre-marks
+                # "assigned" inside its own plan(); pure-mapping planners
+                # (the LLM) return "open" tasks that we claim here.
+                task["status"] = "assigned"
+                task["assigned_to"] = rid
                 agent.assign(task)
                 self.metrics["planner_decisions"] += 1
                 self.bb.publish("planner", "assignment", "plan",

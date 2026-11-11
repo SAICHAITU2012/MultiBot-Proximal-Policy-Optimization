@@ -63,6 +63,8 @@ def main():
     p.add_argument("--stand", action="store_true",
                    help="stand-first curriculum: fix all commands to 0 (learn balance "
                         "before walking; walking is the stretch goal afterwards)")
+    p.add_argument("--eval-only", action="store_true",
+                   help="skip training: run the standing-duration eval on the resumed checkpoint")
     p.add_argument("--resume-dir", default=None,
                    help="load the newest checkpoint_*.pt from this experiment dir "
                         "under Genesis-Humanoid/logs/ before training")
@@ -85,8 +87,7 @@ def main():
 
     if args.resume_dir:
         import glob
-        cands = sorted(glob.glob(f"logs/{args.resume_dir}/*/checkpoints/checkpoint_*.pt"),
-                       key=lambda f: f.stat().st_mtime)
+        cands = sorted(glob.glob(f"logs/{args.resume_dir}/*/checkpoints/checkpoint_*.pt"))
         if not cands:
             raise FileNotFoundError(f"no checkpoints under logs/{args.resume_dir}")
         ckpt = torch.load(cands[-1], map_location="cpu", weights_only=False)
@@ -127,6 +128,32 @@ def main():
         return orig_train_one_iteration(*a, **k)
 
     runner.algorithm.train_one_iteration = guarded_train_one_iteration
+
+    if args.eval_only:
+        # STANDING-DURATION EVAL (M5 exit evidence): zero commands, 10 s of
+        # deterministic rollouts from the resumed actor; report the fall times
+        # and the height retention per env.
+        wrapped_env.reset()
+        obs, _ = wrapped_env.get_observations()
+        heights = []
+        fell_at = [None] * args.num_envs
+        with torch.inference_mode():
+            for t in range(500):  # 10 s at 50 Hz
+                out = ppo._actor(obs.float())
+                a = out[0] if isinstance(out, tuple) else out
+                obs, _, _, _, _ = wrapped_env.step(a)
+                h = env.base_pos[:, 2]  # the GH env's base height (the fall threshold 0.5 m matches)
+                if h is not None:
+                    heights.append([round(float(v), 3) for v in h])
+                    for i in range(args.num_envs):
+                        if fell_at[i] is None and float(h[i]) < 0.5:
+                            fell_at[i] = t
+        import numpy as np
+        H = np.array(heights) if heights else np.zeros((1, args.num_envs))
+        print(f"[stage4] EVAL initial mean height {H[0].mean():.3f} m | final mean height {H[-1].mean():.3f} m")
+        print(f"[stage4] EVAL per-env fall steps (of 500; None = stood the full 10 s): {fell_at}")
+        print(f"[stage4] EVAL stood full 10 s: {sum(1 for f in fell_at if f is None)}/{args.num_envs}")
+        return
 
     t0 = time.time()
     completed = 0

@@ -90,8 +90,20 @@ art = sorted(L.glob("mission_*"), key=lambda p: p.stat().st_mtime)[-1]
 metrics = (art / "metrics.txt").read_text() if (art / "metrics.txt").exists() else "n/a"
 print(f"\n[TEST] === FINAL (artifacts: {art.name}) ===")
 print(metrics)
-print("\n[TEST] === LAST 20 BLACKBOARD EVENTS ===")
-_hist = list(m.bb.history)[-20:]
+print(f"[TEST] LIVE mission metrics: {m.metrics}")
+print("\n[TEST] === ALL NON-STATUS BLACKBOARD EVENTS (deduped by type) ===")
+_seen_types = set()
+for ev in list(m.bb.history):
+    if ev.get("type") == "status_report":
+        continue
+    key = (ev.get("type"), ev.get("from"))
+    if key in _seen_types and ev.get("type") in ("task_started", "task_complete"):
+        continue  # keep first occurrence per type+sender for the lifecycle skeleton
+    _seen_types.add(key)
+    print(f"[BB] t~{ev.get('t', '?')} {ev.get('from', '?')} {ev.get('type', '?')}: "
+          f"{str(ev.get('data', ''))[:170]}")
+print("\n[TEST] === LAST 12 BLACKBOARD EVENTS ===")
+_hist = list(m.bb.history)[-12:]
 for ev in _hist:
     print(f"[BB] t~{ev.get('t', '?')} {ev.get('from', '?')}/{ev.get('kind', '?')} {ev.get('type', '?')}: "
           f"{str(ev.get('data', ''))[:160]}")
