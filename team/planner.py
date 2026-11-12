@@ -119,9 +119,24 @@ class LLMPlanner:
             if t["status"] == "open" and t["id"] not in covered
         }
         if remaining:
+            # RuleBasedPlanner.plan mutates task["status"] = "assigned" INSIDE its
+            # own plan(). That is fine when every assignment it returns is used,
+            # but here it is only a completion pass over what the LLM left open:
+            # if the fallback picks a robot the LLM already spoke for, the
+            # assignment is dropped and the task is left "assigned" with NO owner
+            # — open_tasks() never returns it again and it is never scheduled.
+            # Measured: two LLM-coordinated missions ended delivered 1/2 because
+            # recon0/recon1 was stranded this way at t=0 and never ran.
+            before = {t["id"]: t["status"] for t in remaining.values()}
             sub = self.fallback.plan(world_state, list(remaining.values()))
             for rid, tid in sub.items():
-                valid.setdefault(rid, tid)
+                if rid in valid:
+                    continue
+                valid[rid] = tid
+            used = set(valid.values())
+            for t in remaining.values():
+                if t["id"] not in used:
+                    t["status"] = before.get(t["id"], "open")
         return valid
 
     # -- internals ---------------------------------------------------------

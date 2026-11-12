@@ -51,7 +51,8 @@ PKG_APPROX_NOISE = 1.0           # recon reports package pos with this much erro
 
 class Mission:
     def __init__(self, n_packages: int = 2, planner_name: str = "rule",
-                 max_steps: int = 6000, transcript_dir: str | None = None):
+                 max_steps: int = 6000, transcript_dir: str | None = None,
+                 record_camera: bool = False):
         self.bb = Blackboard()
         self.board = TaskBoard()
         self.max_steps = max_steps
@@ -68,6 +69,7 @@ class Mission:
             go2_ckpt=str(TEAM_LAB / "logs/go2-nav/model_800.pt"),
             drone_ckpt=str(TEAM_LAB / "logs/drone-hover-s4/model_1600.pt"),
             extra_boxes=pkg_spawns,
+            record_camera=record_camera,   # M8: off unless explicitly requested
         )
         self.agents = {
             "go2": Go2TaskAgent(self.team.robots["go2"], self.bb, "go2", team=self.team),

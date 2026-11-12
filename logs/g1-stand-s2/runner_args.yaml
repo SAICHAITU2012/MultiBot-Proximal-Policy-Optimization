@@ -1,0 +1,6 @@
+total_iterations: 1600
+freeze_actor_iterations: 0
+freeze_critic_iterations: 0
+log_interval: 5
+save_interval: 50
+save_path: logs/g1-stand-s2

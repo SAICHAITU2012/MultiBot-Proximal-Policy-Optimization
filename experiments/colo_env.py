@@ -417,6 +417,14 @@ class PandaAgent:
 # ---------------------------------------------------------------------------
 # Co-located team
 # ---------------------------------------------------------------------------
+# Recording camera (M8). Module-level so a framing probe can override them
+# before construction (sensors cannot be added after scene.build()).
+REC_CAM_RES = (960, 540)
+REC_CAM_POS = (0.20, -4.10, 5.00)       # wide enough to hold all three robots
+REC_CAM_LOOKAT = (-0.10, 1.10, 0.25)    # (framing verified visually, M8)
+REC_CAM_FOV = 50
+
+
 class CoLocatedTeam:
     """One Genesis scene, three robots, three policies, one shared clock.
 
@@ -426,7 +434,8 @@ class CoLocatedTeam:
     """
 
     def __init__(self, show_viewer=False, go2_ckpt=None, drone_ckpt=None,
-                 go2_command=(0.5, 0.0, 0.0), drone_target=None, extra_boxes=None):
+                 go2_command=(0.5, 0.0, 0.0), drone_target=None, extra_boxes=None,
+                 record_camera=False):
         _ensure_genesis_init()
         self.scene = gs.Scene(
             sim_options=gs.options.SimOptions(dt=SCENE_DT, substeps=SUBSTEPS),
@@ -514,6 +523,20 @@ class CoLocatedTeam:
                 )
             )
 
+        # OPTIONAL RECORDING CAMERA (M8 closeout, 2026-11-12): off by default and
+        # additive — it changes nothing about the scene, the physics or the
+        # policies. It exists so the mission can be re-run unmodified with a
+        # camera and its REAL frames captured (see experiments/record_mission.py;
+        # no replay reconstruction is involved). Framed to hold the whole
+        # corridor: panda base (-2.0,1.2) .. go2 start (+2.2,1.2).
+        self.camera = None
+        if record_camera:
+            self.camera = self.scene.add_sensor(
+                gs.sensors.RasterizerCameraOptions(
+                    res=REC_CAM_RES, pos=REC_CAM_POS, lookat=REC_CAM_LOOKAT, fov=REC_CAM_FOV,
+                )
+            )
+
         self.scene.build(n_envs=1)
 
         # post-build: the 15 cm crate at 7 kg (v1.4.5 Box has no density kwarg;
@@ -571,6 +594,20 @@ class CoLocatedTeam:
         self.t += 1
         for robot in self.robots.values():
             robot.refresh()
+
+    def render_frame(self):
+        """One rendered RGB frame (H, W, 3) uint8 from the recording camera."""
+        if self.camera is None:
+            return None
+        out = self.camera.read()
+        rgb = getattr(out, "rgb", None)
+        if rgb is None:
+            rgb = out[0]
+        import numpy as _np
+        a = rgb.detach().cpu().numpy() if hasattr(rgb, "detach") else _np.asarray(rgb)
+        if a.ndim == 4:      # (1, H, W, 3)
+            a = a[0]
+        return a.astype(_np.uint8)
 
     def get_states(self):
         return {name: robot.get_state() for name, robot in self.robots.items()}

@@ -1,0 +1,31 @@
+{
+ "kind": "recorded (real re-run with a camera sensor; NOT a replay reconstruction)",
+ "planner": "rule",
+ "packages": 2,
+ "capture_every_steps": 10,
+ "capture_hz_sim": 10.0,
+ "playback_fps": 30,
+ "frames": 6000,
+ "sim_time_first_frame_s": 0.02,
+ "sim_time_last_frame_s": 1199.82,
+ "video_duration_s": 200.0,
+ "playback_speed_vs_sim": 6.0,
+ "wall_time_s": 96.4,
+ "mission_metrics": {
+  "t_start": 0.0,
+  "recon": 2,
+  "delivered": 2,
+  "inspected": 1,
+  "picked": 1,
+  "planner_decisions": 7,
+  "messages": 2009
+ },
+ "files_md5": {
+  "team/mission.py": "5b7d05d0ca23c3cd8233ccecf09091a6",
+  "experiments/colo_env.py": "15ec07ca10a7e2e8e527a2144d2e0943",
+  "team/agents.py": "176fe6c647886368a6dc07a86704d57f",
+  "team/planner.py": "6c8a2bef77672283049547d33f8c25b8"
+ },
+ "video_md5": "916ff0e9d64bfef73d001a1c4d8ea633",
+ "video_bytes": 3819064
+}

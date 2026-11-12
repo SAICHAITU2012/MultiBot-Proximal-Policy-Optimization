@@ -1,0 +1,8 @@
+t_start: 0.0
+recon: 2
+delivered: 2
+inspected: 1
+picked: 1
+planner_decisions: 7
+messages: 2009
+makespan_s: 1200.0
