@@ -30,6 +30,7 @@ class ConstraintLayer:
         self._granted: set[int] = set()
         self._blocked: set[int] = set()
         self._n = 0
+        self._executed_count = 0
 
     # -- request / verdict ----------------------------------------------
     def request(self, robot: str, action: str, conflict=None, **detail) -> int:
@@ -57,6 +58,7 @@ class ConstraintLayer:
         if tok not in self._granted:
             raise Blocked(f"action token {tok} was not granted and must not execute")
         executed_log.append(tok)
+        self._executed_count += 1
 
     # -- yielding strategies --------------------------------------------
     def yield_action(self, robot: str, partner: str) -> str:
@@ -73,5 +75,5 @@ class ConstraintLayer:
             "allowed": len(self.audit) - len(blocked),
             "blocked": len(blocked),
             "blocked_by_pair": sorted({a["reason"].split("with ")[-1] for a in blocked}),
-            "executed": len(self._granted & set()),
+            "executed": self._executed_count,
         }

@@ -17,10 +17,12 @@ class ConstraintLayerAuthorizationTests(unittest.TestCase):
         layer = ConstraintLayer(DummyProximity())
         token = layer.request("go2", "drive")
         executed = []
+        self.assertEqual(layer.stats()["executed"], 0)
 
         layer.execute(token, executed)
 
         self.assertEqual(executed, [token])
+        self.assertEqual(layer.stats()["executed"], 1)
 
     def test_execute_rejects_blocked_token(self):
         layer = ConstraintLayer(DummyProximity())
@@ -31,6 +33,7 @@ class ConstraintLayerAuthorizationTests(unittest.TestCase):
             layer.execute(token, executed)
 
         self.assertEqual(executed, [])
+        self.assertEqual(layer.stats()["executed"], 0)
 
     def test_execute_rejects_unknown_token(self):
         layer = ConstraintLayer(DummyProximity())
@@ -40,3 +43,4 @@ class ConstraintLayerAuthorizationTests(unittest.TestCase):
             layer.execute(999, executed)
 
         self.assertEqual(executed, [])
+        self.assertEqual(layer.stats()["executed"], 0)
