@@ -1,121 +1,121 @@
 === M5 acceptance: multi-obstacle coordination ===
-[38;5;226m[Genesis] [15:33:42] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[38;5;226m[Genesis] [15:33:42] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
-[W 11/16/26 15:33:43.221 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:33:43.225 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:33:43.377 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:33:43.383 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:33:43.400 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:33:43.403 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:33:43] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:33:43] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:47:07] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [15:47:08] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[W 11/16/26 15:47:08.877 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:08.890 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:09.181 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:09.191 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:09.216 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:09.220 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:47:09] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:47:09] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [PASS] S1 two in-line blockers: routes around BOTH, completes t=23.4s reroutes=1
   [PASS] S1 no contact with either column min_gap=0.244
-[38;5;226m[Genesis] [15:34:02] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:34:02] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:34:02] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[W 11/16/26 15:34:02.911 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:02.914 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:03.062 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:03.066 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:03.083 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:03.084 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:34:03] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:34:03] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:47:33] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:47:33] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:47:33] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[W 11/16/26 15:47:33.761 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:33.765 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:33.941 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:33.945 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:33.967 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:33.970 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:47:33] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:47:34] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [PASS] S2 flanking: reports expected NO_GEOMETRIC_ROUTE deadlock t=19.8s ok=False diag=NO_GEOMETRIC_ROUTE why=deadlock: replanning budget exhausted (NO_GEOMETRIC_ROUTE)
   [PASS] S2 no contact with either column min_gap=0.3
-[38;5;226m[Genesis] [15:34:17] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:34:17] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:34:17] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[W 11/16/26 15:34:18.053 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:18.057 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:18.205 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:18.209 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:18.226 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:18.228 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:34:18] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:34:18] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:47:51] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:47:51] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:47:51] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[W 11/16/26 15:47:52.301 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:52.305 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:52.493 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:52.498 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:52.519 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:47:52.521 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:47:52] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:47:52] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [PASS] S3 tight flanking: completes around both t=21.9s ok=True reroutes=1
   [PASS] S3 no contact with either column min_gap=0.257
-[38;5;226m[Genesis] [15:34:32] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:34:32] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:34:32] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[W 11/16/26 15:34:33.179 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:33.183 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:33.342 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:33.346 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:33.364 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:33.365 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:34:33] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:34:33] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:48:11] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:48:11] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:48:11] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[W 11/16/26 15:48:11.884 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:11.889 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:12.096 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:12.102 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:12.127 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:12.130 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:48:12] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:48:12] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [PASS] S4 scripted G1 moves: mission completes t=15.5s reroutes=1
   [PASS] S4 no contact with the mover min_gap=0.246 contacts=[]
-[38;5;226m[Genesis] [15:34:46] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:34:46] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:34:46] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[W 11/16/26 15:34:47.306 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:47.310 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:47.452 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:47.456 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:47.473 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:34:47.475 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:34:47] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:34:47] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:48:29] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:48:29] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:48:29] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[W 11/16/26 15:48:29.860 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:29.864 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:30.034 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:30.039 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:30.061 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:30.063 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:48:30] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:48:30] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [PASS] S5a column 1.2 m from the crate: resolves by maneuvering, completes t=20.0s reroutes=1
   [PASS] S5a no contact with the column min_gap=0.348
-[38;5;226m[Genesis] [15:35:01] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:35:01] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:35:01] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[W 11/16/26 15:35:01.851 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:01.855 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:02.006 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:02.010 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:02.027 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:02.030 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:35:02] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:35:02] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:48:46] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:48:47] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:48:47] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[W 11/16/26 15:48:47.484 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:47.488 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:47.671 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:47.676 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:47.695 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:48:47.698 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:48:47] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:48:47] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [FAIL] S5b measured push-out: crate clears column and mission completes t=12.7s ok=False reached=False displacement=0.220m final_center_distance=0.180m required=0.50m why=deadlock: replanning budget exhausted (NO_GEOMETRIC_ROUTE)
   [PASS] S5b Go2 has no contact with the column min_gap=0.58
   === M5.5 planning latency vs obstacle count (pure geometry) ===
-  plan_ladder generation with  1 blockers: 0.007 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
-  plan_ladder generation with  2 blockers: 0.007 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
-  plan_ladder generation with  4 blockers: 0.008 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
-  plan_ladder generation with  8 blockers: 0.013 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
+  plan_ladder generation with  1 blockers: 0.008 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
+  plan_ladder generation with  2 blockers: 0.009 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
+  plan_ladder generation with  4 blockers: 0.009 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
+  plan_ladder generation with  8 blockers: 0.012 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
   plan_ladder generation with 16 blockers: 0.017 ms/call (the validation cost is linear per leg x body; the run metrics report the end-to-end pick latencies)
-[38;5;226m[Genesis] [15:35:16] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
-[38;5;226m[Genesis] [15:35:16] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
-[38;5;226m[Genesis] [15:35:16] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
-[W 11/16/26 15:35:16.523 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:16.526 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:16.685 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:16.689 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:16.706 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[W 11/16/26 15:35:16.708 4060810] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
-[38;5;226m[Genesis] [15:35:16] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
-[38;5;226m[Genesis] [15:35:16] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [15:49:03] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [15:49:04] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [15:49:04] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[W 11/16/26 15:49:04.527 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:49:04.531 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:49:04.712 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:49:04.716 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:49:04.736 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 15:49:04.739 4085959] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[38;5;226m[Genesis] [15:49:04] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [15:49:04] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
   [PASS] S7-A only A's movement state updated when A moves A.move_t None->2.0, B.move_t None->None
   [PASS] S7-A B's position untouched by A's move B pos [1.2, 0.6, 0.2]->[1.2, 0.6, 0.2]
   [PASS] S7-B only B's movement state updated when B moves A.move_t 2.0->2.0 (must stay 2.0), B.move_t -> 3.0
