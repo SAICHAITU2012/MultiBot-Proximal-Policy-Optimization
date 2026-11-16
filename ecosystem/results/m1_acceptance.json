@@ -1,0 +1,106 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "check": "four robots, four distinct identities",
+      "ok": true,
+      "detail": "['drone', 'g1', 'go2', 'panda']"
+    },
+    {
+      "check": "distinct obs/action contracts",
+      "ok": true,
+      "detail": "{'go2': (45, 12), 'drone': (17, 4), 'panda': (14, 6), 'g1': (96, 29)}"
+    },
+    {
+      "check": "no shared action buffer (4 separate tensors)",
+      "ok": true,
+      "detail": "['drone', 'g1', 'go2', 'panda']"
+    },
+    {
+      "check": "4 separate physics entities",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "per-robot Hz matches each policy's trained rate",
+      "ok": true,
+      "detail": "{'go2': 25, 'drone': 200, 'panda': 50, 'g1': 50} (want {'go2': 25, 'drone': 200, 'panda': 50, 'g1': 50})"
+    },
+    {
+      "check": "single shared clock",
+      "ok": true,
+      "detail": "5.00s of sim in 1000 steps"
+    },
+    {
+      "check": "mission completes",
+      "ok": true,
+      "detail": "at t=15.1s"
+    },
+    {
+      "check": "stage order is the required chain",
+      "ok": true,
+      "detail": "['CRATE_SIGHTED', 'CRATE_REACHED', 'PARCEL_DISPATCHED', 'STATION_STABLE']"
+    },
+    {
+      "check": "every robot contributed a report",
+      "ok": true,
+      "detail": "['drone', 'g1', 'go2', 'panda']"
+    },
+    {
+      "check": "telemetry actually exchanged on the bus",
+      "ok": true,
+      "detail": "12 messages, 1021 coordinator reads"
+    },
+    {
+      "check": "G1 never fell during the mission",
+      "ok": true,
+      "detail": "min z 0.780 m"
+    },
+    {
+      "check": "ablate drone -> mission fails",
+      "ok": true,
+      "detail": "timeout at stage sighted; got []"
+    },
+    {
+      "check": "ablate go2   -> mission fails",
+      "ok": true,
+      "detail": "timeout at stage reached; got ['CRATE_SIGHTED']"
+    },
+    {
+      "check": "ablate panda -> mission fails",
+      "ok": true,
+      "detail": "timeout at stage dispatched; got ['CRATE_SIGHTED', 'CRATE_REACHED']"
+    },
+    {
+      "check": "ablate g1    -> mission fails",
+      "ok": true,
+      "detail": "g1 fell; got ['CRATE_SIGHTED', 'CRATE_REACHED', 'PARCEL_DISPATCHED', 'STATION_FAILED']"
+    },
+    {
+      "check": "peak RSS under the 16 GB machine budget",
+      "ok": true,
+      "detail": "1.02 GiB"
+    },
+    {
+      "check": "disk headroom still positive",
+      "ok": true,
+      "detail": "16.8 GiB free"
+    }
+  ],
+  "build_s": 83.3,
+  "sim_time": 15.1,
+  "sim_speed_x": 9.3,
+  "peak_rss_gib": 1.02,
+  "disk_free_gib": 16.8,
+  "mission": {
+    "ok": true,
+    "t": 15.11,
+    "stage_times": {
+      "sighted": 7.38,
+      "reached": 9.025,
+      "dispatched": 10.105,
+      "stable": 15.11
+    },
+    "messages": 12
+  }
+}

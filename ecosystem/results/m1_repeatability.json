@@ -1,0 +1,38 @@
+[
+  {
+    "run": 1,
+    "ok": true,
+    "t": 10.15,
+    "stages": {
+      "sighted": 2.35,
+      "reached": 3.56,
+      "dispatched": 5.14,
+      "stable": 10.15
+    },
+    "g1_min_z": 0.78
+  },
+  {
+    "run": 2,
+    "ok": true,
+    "t": 10.15,
+    "stages": {
+      "sighted": 2.35,
+      "reached": 3.56,
+      "dispatched": 5.14,
+      "stable": 10.15
+    },
+    "g1_min_z": 0.78
+  },
+  {
+    "run": 3,
+    "ok": true,
+    "t": 10.15,
+    "stages": {
+      "sighted": 2.35,
+      "reached": 3.56,
+      "dispatched": 5.14,
+      "stable": 10.15
+    },
+    "g1_min_z": 0.78
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "force_N": 40.0,
+    "deg": 0.0,
+    "impulse_Ns": 10.0,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 0.021,
+    "max_tilt_deg": 2.2,
+    "recovery_s": 0.0,
+    "final_height_m": 0.782,
+    "fell": false,
+    "recovered": true
+  },
+  {
+    "force_N": 60.0,
+    "deg": 0.0,
+    "impulse_Ns": 15.0,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 0.064,
+    "max_tilt_deg": 5.8,
+    "recovery_s": 0.44,
+    "final_height_m": 0.783,
+    "fell": false,
+    "recovered": true
+  },
+  {
+    "force_N": 70.0,
+    "deg": 0.0,
+    "impulse_Ns": 17.5,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 0.133,
+    "max_tilt_deg": 8.4,
+    "recovery_s": 1.23,
+    "final_height_m": 0.783,
+    "fell": false,
+    "recovered": true
+  },
+  {
+    "force_N": 80.0,
+    "deg": 0.0,
+    "impulse_Ns": 20.0,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 1.526,
+    "max_tilt_deg": 80.9,
+    "recovery_s": null,
+    "final_height_m": 0.128,
+    "fell": true,
+    "recovered": false
+  },
+  {
+    "force_N": 60.0,
+    "deg": 90.0,
+    "impulse_Ns": 15.0,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 0.047,
+    "max_tilt_deg": 1.6,
+    "recovery_s": 0.0,
+    "final_height_m": 0.782,
+    "fell": false,
+    "recovered": true
+  },
+  {
+    "force_N": 70.0,
+    "deg": 90.0,
+    "impulse_Ns": 17.5,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 0.065,
+    "max_tilt_deg": 1.6,
+    "recovery_s": 0.0,
+    "final_height_m": 0.783,
+    "fell": false,
+    "recovered": true
+  },
+  {
+    "force_N": 80.0,
+    "deg": 90.0,
+    "impulse_Ns": 20.0,
+    "initial_height_mean": 0.7833,
+    "initial_height_std": 0.00165,
+    "max_displacement_m": 0.092,
+    "max_tilt_deg": 1.7,
+    "recovery_s": 0.0,
+    "final_height_m": 0.783,
+    "fell": false,
+    "recovered": true
+  }
+]

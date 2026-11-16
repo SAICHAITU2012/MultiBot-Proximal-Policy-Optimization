@@ -1,0 +1,60 @@
+=== M4: route invalidation after commitment (the missing evidence) ===
+
+--- A: obstacle appears on the LIVE remaining route ---
+[Genesis] [10:48:01] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`
+[Genesis] [10:48:01] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:01] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:02] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:02] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:02] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[Genesis] [10:48:02] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.
+[W 11/16/26 10:48:02.310 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:02.315 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:02.468 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:02.474 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:02.491 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:02.493 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[Genesis] [10:48:02] [WARNING] Neutral robot position (qpos0) exceeds joint limits.
+[Genesis] [10:48:02] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.
+  [PASS] A0 prerequisite: the dog was mid-execution when the obstacle appeared — placed_at=4.0s travelled=5.08m
+  [PASS] A0b the obstacle was placed outside the conflict threshold (the conflict is a route violation, not a teleport artifact) — surface gap at placement=0.42m (SAFE_GAP=0.22; no instantaneous conflict, the conflict is the ROUTE)
+  [PASS] A1 the committed route was invalidated and REPLANNED (replans >= 1) — placed=[(4.0, (3.001631736755371, 0.7506904006004333), (2.07, 0.17), None)] replans=1 events=['REROUTE_STARTED', 'ROUTE_REPLANNED', 'RESUME_DIRECT'] t=19.1s path=5.08m why=completed
+  [PASS] A2 a ROUTE_REPLANNED event was published (a replacement was chosen) — events=['REROUTE_STARTED', 'ROUTE_REPLANNED', 'RESUME_DIRECT']
+  [PASS] A3 the dog resumed and completed the mission after replanning — why=completed t=19.1s
+  [PASS] A4 no go2-g1 contact during the replan — min_gap=0.128
+
+--- B: repeated live invalidations (the budget fuse) ---
+[Genesis] [10:48:17] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.
+[Genesis] [10:48:17] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`
+[Genesis] [10:48:17] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`
+[W 11/16/26 10:48:17.775 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:17.778 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:17.922 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:17.926 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:17.943 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[W 11/16/26 10:48:17.945 3782946] [frontend_ir.cpp:begin_frontend_struct_for_on_snode@1535] qd.loop_config(serialize=True) does not have effect on the struct for. The execution order is not guaranteed.
+[Genesis] [10:48:17] [WARNING] Neutral robot position (qpos0) exceeds joint limits.
+[Genesis] [10:48:18] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.
+  [PASS] B0 prerequisite: the fuse scenario actually produced replans — 5 replans over 6 placements
+  [PASS] B1 the replan budget is never exceeded (no infinite replanning loop) — placements=6/6 replans=5 MAX_REPLANS=5 events=['ROUTE_REPLANNED', 'ROUTE_REPLANNED', 'REPLAN_NO_ROUTE', 'REPLAN_NO_ROUTE', 'ROUTE_REPLANNED'] path=6.20m
+  [PASS] B2 the outcome is honest (complete or deadlock) and contact-free — ok=True why=completed min_gap=0.068
+
+M4-REPLAN VERDICT: 9 PASS, 0 FAIL, 0 SKIP  (artifact: results/m4_replan_verification.json)

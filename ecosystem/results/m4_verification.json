@@ -1,0 +1,84 @@
+{
+  "source": "independent verification run by the audit (not the implementing agent)",
+  "verdict": "M4 VERDICT: 10/10",
+  "n_checks": 10,
+  "checks": [
+    {
+      "check": "T1 static blocker: completes (the M3 reroute intact) t=15.4s reroutes=1 metrics={'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 3.754447573808361, 'efficiency': 0.906}",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T2 blocker moves away: mission completes t=15.4s metrics={'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 3.7586854115015305, 'efficiency': 0.905}",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T2 coordinator resumed direct (the detour dropped) events=['REROUTE_STARTED', 'RESUME_DIRECT']",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T3 blocker moves into the route: replanned and completed t=24.3s reroutes=1 metrics={'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 4.664715893993429, 'efficiency': 0.729}",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T3 no go2-g1 contact min_gap=0.4",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T4 two-side planner: mission completes with a selected route t=15.4s reroutes=1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T5 no safe route: honest failure (deadlock or timeout, no false success) why: timeout at stage reached",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T5 no go2-g1 contact min_gap=0.344",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T6 repeated moves: no infinite replanning loop (the budget fuse) replans=0 (<=5) why: completed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "T6 no go2-g1 contact through the churn min_gap=0.268",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "metrics": {
+    "T1 static": {
+      "replans": 0,
+      "latency_mean_ms": "None"
+    },
+    "T2 moves-away": {
+      "replans": 0,
+      "latency_mean_ms": "None"
+    },
+    "T3 moves-in": {
+      "replans": 0,
+      "latency_mean_ms": "None"
+    },
+    "T4 two-routes": {
+      "replans": 0,
+      "latency_mean_ms": "None"
+    },
+    "T5 no-route": {
+      "replans": 5,
+      "latency_mean_ms": "0.0"
+    },
+    "T6 repeated": {
+      "replans": 0,
+      "latency_mean_ms": "None"
+    }
+  },
+  "interpretation": "0 replans in every scenario: the replan path was not exercised"
+}

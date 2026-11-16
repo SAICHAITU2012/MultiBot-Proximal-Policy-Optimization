@@ -1,0 +1,141 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "check": "all 6 robot pairs are monitored",
+      "ok": true,
+      "detail": "['drone-g1', 'drone-go2', 'drone-panda', 'g1-go2', 'g1-panda', 'go2-panda']"
+    },
+    {
+      "check": "vertical model: airborne drone is not a ground conflict",
+      "ok": true,
+      "detail": "dz=0.64 m -> gap=inf"
+    },
+    {
+      "check": "G5 baseline mission completes with the gate active",
+      "ok": true,
+      "detail": "t=10.3s"
+    },
+    {
+      "check": "baseline: no conflict, no contact, nothing blocked",
+      "ok": true,
+      "detail": "blocked=0 min_gap=+0.60"
+    },
+    {
+      "check": "G2 conflict detected during the low pass (look-ahead or instantaneous)",
+      "ok": true,
+      "detail": "0 instantaneous event(s), 1 look-ahead detection(s) prevented entry"
+    },
+    {
+      "check": "G1 prohibited flight was blocked",
+      "ok": true,
+      "detail": "1 blocked request(s)"
+    },
+    {
+      "check": "G2 drone yielded and the mission still completed",
+      "ok": true,
+      "detail": "t=10.4s"
+    },
+    {
+      "check": "resolution removed physical contact",
+      "ok": true,
+      "detail": "min_gap gate ON +1.07 m"
+    },
+    {
+      "check": "WITHOUT the gate the same scenario makes contact",
+      "ok": true,
+      "detail": "min_gap gate OFF -0.10 m, contacts=['drone-g1']"
+    },
+    {
+      "check": "G4 unresolvable conflict is reported, not silently stalled",
+      "ok": true,
+      "detail": "why: timeout at stage reached, reroutes=1"
+    },
+    {
+      "check": "G1 the dog never drove into the standing G1 (no contact)",
+      "ok": true,
+      "detail": "min_gap +0.05 m"
+    },
+    {
+      "check": "WITHOUT the gate the dog collides with the G1",
+      "ok": true,
+      "detail": "min_gap -0.48 m"
+    },
+    {
+      "check": "G1 enforcement is structural (blocked token cannot execute)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "G3 G1 recovers from controlled disturbances at all",
+      "ok": true,
+      "detail": "6/7 trials recovered"
+    },
+    {
+      "check": "G3 recovery is inside a measured envelope (forward <=70 N, lateral <=80 N)",
+      "ok": true,
+      "detail": "forward [40.0, 60.0, 70.0], lateral [60.0, 70.0, 80.0]"
+    },
+    {
+      "check": "G1 recovery returns to nominal height (frozen policy, no retraining)",
+      "ok": true,
+      "detail": "final heights [0.782, 0.783, 0.783, 0.782, 0.783, 0.783]"
+    },
+    {
+      "check": "worst recovered displacement is measured and small",
+      "ok": true,
+      "detail": "0.13 m at 70 N 0 deg, recovery 1.23 s"
+    },
+    {
+      "check": "G6 three consecutive runs succeed identically",
+      "ok": true,
+      "detail": "completion times [10.32, 10.32, 10.32]"
+    },
+    {
+      "check": "G6 all four ablations still fail with the gate active",
+      "ok": true,
+      "detail": "drone:[]; go2:['CRATE_SIGHTED']; panda:['CRATE_SIGHTED', 'CRATE_REACHED']; g1:['CRATE_SIGHTED', 'CRATE_REACHED', 'PARCEL_DISPATCHED', 'STATION_FAILED']"
+    },
+    {
+      "check": "peak RSS within the 16 GB budget",
+      "ok": true,
+      "detail": "1.40 GiB"
+    },
+    {
+      "check": "disk headroom still positive",
+      "ok": true,
+      "detail": "11.3 GiB"
+    }
+  ],
+  "summary": {
+    "baseline": {
+      "ok": true,
+      "t": 10.32,
+      "why": null
+    },
+    "low_pass_gate_on": {
+      "ok": true,
+      "t": 10.42,
+      "why": null
+    },
+    "low_pass_gate_off": {
+      "ok": true,
+      "t": 10.345,
+      "why": null
+    },
+    "deadlock_gate_on": {
+      "ok": false,
+      "t": 90.0,
+      "why": "timeout at stage reached"
+    },
+    "deadlock_gate_off": {
+      "ok": false,
+      "t": 90.0,
+      "why": "timeout at stage reached"
+    }
+  },
+  "resources": {
+    "peak_rss_gib": 1.4,
+    "disk_free_gib": 11.3
+  }
+}

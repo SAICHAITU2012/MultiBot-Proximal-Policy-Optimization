@@ -1,0 +1,101 @@
+{
+  "schema": "robot_registry/1",
+  "generated": "2026-11-12",
+  "audited_by": "M0 asset audit (read-only)",
+  "machine": {"cpu": "Apple M4", "ram_gb": 16, "disk_free_gb": 32, "disk_used_pct": 93, "ros2": false},
+  "warning": "Models are pinned by md5, never by 'latest checkpoint'. See ASSET_INVENTORY.md F3.",
+  "stacks": {
+    "A_genesis_mission": {"engine": "genesis-world 1.4.5", "root": "team_lab", "status": "mission-verified"},
+    "B_genesis_humanoid": {"engine": "genesis-world 0.3.13 (pinned)", "root": "Genesis-Humanoid", "status": "standing-verified, port pending"},
+    "C_mujoco_lfd": {"engine": "mujoco 3.17", "root": "~/Desktop/humaniod/humanoid_challenge", "status": "separate track, not portable as weights"}
+  },
+  "models": [
+    {
+      "id": "go2-nav-800", "robot": "unitree_go2", "stack": "A", "capability": "locomotion_velocity_tracking",
+      "path": "team_lab/logs/go2-nav/model_800.pt", "md5_12": "7100a54f3313", "bytes": 4546795,
+      "obs_dim": 45, "act_dim": 12, "control_hz": 50, "cfg": "team_lab/logs/go2-nav/cfgs.pkl",
+      "evaluated": {"mission": "used in all delivered runs", "verdict": "verified"}
+    },
+    {
+      "id": "go2-push-s5-800", "robot": "unitree_go2", "stack": "A", "capability": "crate_push_7kg_15cm",
+      "path": "team_lab/logs/go2-push-s5/model_800.pt", "md5_12": "c56f741011b2", "bytes": 4595947,
+      "obs_dim": 45, "act_dim": 12, "control_hz": 20, "cfg": "team_lab/logs/go2-push-s5/cfgs.pkl",
+      "evaluated": {"first_life_pushed_ge_0.15m": ["31/32", "30/32"], "true_falls": 0,
+                    "first_life_disp_mean_m": [1.90, 1.42], "verdict": "verified — the mission policy"},
+      "notes": "Pinned. Do NOT substitute model_1000.pt (unevaluated)."
+    },
+    {
+      "id": "go2-push-s5-1000", "robot": "unitree_go2", "stack": "A", "capability": "crate_push_7kg_15cm",
+      "path": "team_lab/logs/go2-push-s5/model_1000.pt", "md5_12": "b15c166c402b", "bytes": null,
+      "obs_dim": 45, "act_dim": 12, "control_hz": 20,
+      "evaluated": {"verdict": "NOT EVALUATED — excluded from use"}
+    },
+    {
+      "id": "drone-hover-s4-1600", "robot": "crazyflie_2x", "stack": "A", "capability": "hover_position_tracking",
+      "path": "team_lab/logs/drone-hover-s4/model_1600.pt", "md5_12": "d03cf15fa1fa", "bytes": 474997,
+      "act_dim": 4, "control_hz": 100, "cfg": "team_lab/logs/drone-hover-s4/cfgs.pkl",
+      "evaluated": {"recon": "2/2 packages located per mission", "verdict": "verified"}
+    },
+    {
+      "id": "panda-grasp-1500", "robot": "franka_panda", "stack": "A", "capability": "reach",
+      "path": "team_lab/logs/grasp-panda_rl/model_1500.pt", "md5_12": "0e55df0cadbe", "bytes": 2491701,
+      "control_hz": 100, "cfg": "team_lab/logs/grasp-panda_rl/cfgs.pkl",
+      "evaluated": {"in_mission": "picked=1, verified contact transition", "verdict": "verified"}
+    },
+    {
+      "id": "panda-push-p1b-900", "robot": "franka_panda", "stack": "A", "capability": "reach_press_push",
+      "path": "team_lab/logs/panda-push-s1/model_900.pt", "md5_12": "1cb4a6752e2d", "bytes": 2491627,
+      "control_hz": 100, "cfg": "team_lab/logs/panda-push-s1/cfgs.pkl",
+      "evaluated": {"in_mission": "parcel/process tasks", "verdict": "verified"}
+    },
+    {
+      "id": "g1-stand-s2-final", "robot": "unitree_g1", "stack": "B", "capability": "standing_balance",
+      "path": "Genesis-Humanoid/logs/g1-stand-s2/20261111_213159/checkpoints/checkpoint_final.pt",
+      "also_at": "team_lab/logs/g1-stand-s2/checkpoint_final.pt",
+      "md5_12": "79160cfe4725", "bytes": 3068369,
+      "obs_dim": 103, "act_dim": 29, "mlp": [256, 256, 128], "activation": "relu", "sim_dt": 0.005,
+      "robot_urdf": "Genesis-Humanoid/assets/robot/unitree_g1/g1_29dof_simple_collision.urdf",
+      "evaluated": {"stood_full_10s": "4/4", "height_m": [0.797, 0.792], "verdict": "verified in 0.3.13"},
+      "port": {"target_engine": "1.4.5", "risk": "contact/PD/joint-order drift", "status": "PENDING M2"}
+    },
+    {
+      "id": "g1-cup-bc-dagger1", "robot": "unitree_g1_dex3", "stack": "C", "capability": "cup_pick_place_bc",
+      "path": "~/Desktop/humaniod/humanoid_challenge/models/cup_bc_dagger1.pt", "md5_12": null,
+      "obs_dim": 37, "act_dim": 8, "train_transitions": 15110, "framework": "mujoco",
+      "evaluated": {"verdict": "works in its own MuJoCo env; NOT portable to Genesis as weights"}
+    },
+    {
+      "id": "g1-public-baseline-chunked", "robot": "unitree_g1_dex3", "stack": "C", "capability": "chunked_policy",
+      "path": "~/Desktop/humaniod/humanoid_challenge/models/public_baseline_chunked.pt", "md5_12": null,
+      "obs_dim": 56, "act_dim": 128, "horizon": 16, "execute": 8, "context": 4,
+      "source": "lewislf/G1_Dex3_pick_white_cup_right8_1squeeze (MIT)", "framework": "mujoco",
+      "evaluated": {"verdict": "reference baseline only"}
+    }
+  ],
+  "robot_descriptions": {
+    "unitree_go2": "genesis-world/genesis/assets/urdf/go2/urdf/go2.urdf",
+    "crazyflie_2x": "genesis-world/genesis/assets/urdf/drones/cf2x.urdf",
+    "franka_panda": "genesis-world/genesis/assets/urdf/panda_bullet/panda.urdf",
+    "unitree_g1_29dof": "Genesis-Humanoid/assets/robot/unitree_g1/g1_29dof_simple_collision.urdf",
+    "unitree_g1_variants": "unitree_ros/robots/g1_description/, g1_d_description/, g1_with_brainco_hand/",
+    "unitree_g1_mjcf": "~/Desktop/humaniod/humanoid_challenge/vendor/mujoco_menagerie/"
+  },
+  "infrastructure": {
+    "machine_guard": "team_lab/monitor/machine_guard.py (45 min session, 92C / 88% mem)",
+    "blackboard": "team_lab/team/blackboard.py",
+    "planners": "team_lab/team/planner.py (rule + ollama qwen2.5:1.5b)",
+    "mission": "team_lab/team/mission.py + agents.py",
+    "scene_harness": "team_lab/experiments/colo_env.py",
+    "recorder": "team_lab/experiments/record_mission.py",
+    "policy_loader": "colo_env.load_actor_from_log (loads stack A and B)"
+  },
+  "gaps": [
+    "no G1 in the Genesis 1.4.5 scene (standing policy port pending)",
+    "no multi-instance spawning / robot identity / zone assignment",
+    "no inter-robot collision avoidance",
+    "no AMR (mobile base) model, policy or description at all",
+    "ROS 2 not installed",
+    "disk 93% full — 66 GB of unpushed checkpoints block multi-environment work",
+    "capability-aware allocation unproven beyond 3 robots"
+  ]
+}

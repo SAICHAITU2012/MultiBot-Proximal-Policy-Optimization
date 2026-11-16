@@ -1,0 +1,1243 @@
+{
+ "suite": "m4",
+ "checks": [
+  [
+   "T1 static blocker: completes (the M3 reroute intact)",
+   true,
+   "t=15.5s reroutes=1 metrics={'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 3.7913691520513306, 'efficiency': 0.897}"
+  ],
+  [
+   "T2 blocker moves away: mission completes",
+   true,
+   "t=15.5s metrics={'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 3.78811255972501, 'efficiency': 0.898}"
+  ],
+  [
+   "T2 coordinator resumed direct (the detour dropped)",
+   true,
+   "events=['REROUTE_STARTED', 'RESUME_DIRECT']"
+  ],
+  [
+   "T3 blocker lands in the lane: mission completes (plan-time avoidance; the closed-loop replan is test_m4_replan's)",
+   true,
+   "t=21.4s replans=0 reroutes=1 metrics={'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 4.718909832638288, 'efficiency': 0.721}"
+  ],
+  [
+   "T3 no go2-g1 contact",
+   true,
+   "min_gap=0.435"
+  ],
+  [
+   "T4 two-side planner: mission completes with a selected route",
+   true,
+   "t=15.5s reroutes=1"
+  ],
+  [
+   "T5 no safe route: honest failure (deadlock or timeout, no false success)",
+   true,
+   "why: timeout at stage reached"
+  ],
+  [
+   "T5 no go2-g1 contact",
+   true,
+   "min_gap=0.344"
+  ],
+  [
+   "T6 repeated moves: churn handled by re-routing within the budget",
+   true,
+   "reroutes=1 replans=0 (<=5) why: completed"
+  ],
+  [
+   "T6 no go2-g1 contact through the churn",
+   true,
+   "min_gap=0.378"
+  ]
+ ],
+ "runs": {
+  "T1_static": {
+   "ok": true,
+   "t": 15.49,
+   "why": null,
+   "stage_times": {
+    "sighted": 2.095,
+    "reached": 9.370000000000001,
+    "dispatched": 10.485,
+    "stable": 15.49
+   },
+   "events": [
+    [
+     0.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     2.1,
+     "drone",
+     "CRATE_SIGHTED"
+    ],
+    [
+     2.1,
+     "go2",
+     "REROUTE_STARTED"
+    ],
+    [
+     5.83,
+     "go2",
+     "RESUME_DIRECT"
+    ],
+    [
+     9.37,
+     "go2",
+     "CRATE_REACHED"
+    ],
+    [
+     10.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     10.48,
+     "panda",
+     "PARCEL_DISPATCHED"
+    ],
+    [
+     15.49,
+     "g1",
+     "STATION_STABLE"
+    ]
+   ],
+   "messages": 14,
+   "bus_reads": 2097,
+   "proximity": {
+    "pairs": 6,
+    "conflict_events": 0,
+    "clear_events": 0,
+    "min_gap_by_pair": {
+     "drone-go2": null,
+     "go2-panda": 1.69,
+     "g1-go2": 0.244,
+     "drone-panda": 2.043,
+     "drone-g1": null,
+     "g1-panda": 3.18
+    },
+    "min_gap": 0.244,
+    "contacts": [],
+    "lookahead_detections": 1,
+    "reads": 3098
+   },
+   "safety": {
+    "requests": 1874,
+    "allowed": 1873,
+    "blocked": 1,
+    "blocked_by_pair": [
+     "would enter g1 safety envelope"
+    ],
+    "executed": 0
+   },
+   "yields": {
+    "drone_climb": 0,
+    "go2_wait": 0,
+    "go2_reroute": 1
+   },
+   "executed_tokens": 0,
+   "m4": {
+    "replans": 0,
+    "replan_latencies_ms": [],
+    "go2_path_m": 3.7913691520513306
+   },
+   "scenario": "m4_static"
+  },
+  "T2_moves_away": {
+   "ok": true,
+   "t": 15.455,
+   "why": null,
+   "stage_times": {
+    "sighted": 2.095,
+    "reached": 9.31,
+    "dispatched": 10.450000000000001,
+    "stable": 15.455
+   },
+   "events": [
+    [
+     0.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     2.1,
+     "drone",
+     "CRATE_SIGHTED"
+    ],
+    [
+     2.1,
+     "go2",
+     "REROUTE_STARTED"
+    ],
+    [
+     5.83,
+     "go2",
+     "RESUME_DIRECT"
+    ],
+    [
+     9.31,
+     "go2",
+     "CRATE_REACHED"
+    ],
+    [
+     10.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     10.45,
+     "panda",
+     "PARCEL_DISPATCHED"
+    ],
+    [
+     15.46,
+     "g1",
+     "STATION_STABLE"
+    ]
+   ],
+   "messages": 14,
+   "bus_reads": 2090,
+   "proximity": {
+    "pairs": 6,
+    "conflict_events": 0,
+    "clear_events": 0,
+    "min_gap_by_pair": {
+     "drone-go2": null,
+     "go2-panda": 1.677,
+     "g1-go2": 0.335,
+     "drone-panda": 2.043,
+     "drone-g1": null,
+     "g1-panda": 3.18
+    },
+    "min_gap": 0.335,
+    "contacts": [],
+    "lookahead_detections": 1,
+    "reads": 3091
+   },
+   "safety": {
+    "requests": 1862,
+    "allowed": 1861,
+    "blocked": 1,
+    "blocked_by_pair": [
+     "would enter g1 safety envelope"
+    ],
+    "executed": 0
+   },
+   "yields": {
+    "drone_climb": 0,
+    "go2_wait": 0,
+    "go2_reroute": 1
+   },
+   "executed_tokens": 0,
+   "m4": {
+    "replans": 0,
+    "replan_latencies_ms": [],
+    "go2_path_m": 3.78811255972501
+   },
+   "scenario": "m4_moves_away"
+  },
+  "T3_moves_in": {
+   "ok": true,
+   "t": 21.39,
+   "why": null,
+   "stage_times": {
+    "sighted": 2.095,
+    "reached": 15.255,
+    "dispatched": 16.385,
+    "stable": 21.39
+   },
+   "events": [
+    [
+     0.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     2.1,
+     "drone",
+     "CRATE_SIGHTED"
+    ],
+    [
+     3.0,
+     "go2",
+     "REROUTE_STARTED"
+    ],
+    [
+     3.71,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     10.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     11.13,
+     "go2",
+     "RESUME_DIRECT"
+    ],
+    [
+     15.26,
+     "go2",
+     "CRATE_REACHED"
+    ],
+    [
+     16.39,
+     "panda",
+     "PARCEL_DISPATCHED"
+    ],
+    [
+     20.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     20.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     20.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     20.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     21.39,
+     "g1",
+     "STATION_STABLE"
+    ]
+   ],
+   "messages": 19,
+   "bus_reads": 3277,
+   "proximity": {
+    "pairs": 6,
+    "conflict_events": 0,
+    "clear_events": 0,
+    "min_gap_by_pair": {
+     "drone-go2": null,
+     "go2-panda": 1.656,
+     "g1-go2": 0.435,
+     "drone-panda": 2.043,
+     "drone-g1": null,
+     "g1-panda": 2.883
+    },
+    "min_gap": 0.435,
+    "contacts": [],
+    "lookahead_detections": 2,
+    "reads": 4278
+   },
+   "safety": {
+    "requests": 3051,
+    "allowed": 3049,
+    "blocked": 2,
+    "blocked_by_pair": [
+     "would enter g1 safety envelope"
+    ],
+    "executed": 0
+   },
+   "yields": {
+    "drone_climb": 0,
+    "go2_wait": 1,
+    "go2_reroute": 1
+   },
+   "executed_tokens": 0,
+   "m4": {
+    "replans": 0,
+    "replan_latencies_ms": [],
+    "go2_path_m": 4.718909832638288
+   },
+   "scenario": "m4_moves_in"
+  },
+  "T4_two_routes": {
+   "ok": true,
+   "t": 15.49,
+   "why": null,
+   "stage_times": {
+    "sighted": 2.095,
+    "reached": 9.370000000000001,
+    "dispatched": 10.485,
+    "stable": 15.49
+   },
+   "events": [
+    [
+     0.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     2.1,
+     "drone",
+     "CRATE_SIGHTED"
+    ],
+    [
+     2.1,
+     "go2",
+     "REROUTE_STARTED"
+    ],
+    [
+     5.83,
+     "go2",
+     "RESUME_DIRECT"
+    ],
+    [
+     9.37,
+     "go2",
+     "CRATE_REACHED"
+    ],
+    [
+     10.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     10.48,
+     "panda",
+     "PARCEL_DISPATCHED"
+    ],
+    [
+     15.49,
+     "g1",
+     "STATION_STABLE"
+    ]
+   ],
+   "messages": 14,
+   "bus_reads": 2097,
+   "proximity": {
+    "pairs": 6,
+    "conflict_events": 0,
+    "clear_events": 0,
+    "min_gap_by_pair": {
+     "drone-go2": null,
+     "go2-panda": 1.69,
+     "g1-go2": 0.244,
+     "drone-panda": 2.043,
+     "drone-g1": null,
+     "g1-panda": 3.18
+    },
+    "min_gap": 0.244,
+    "contacts": [],
+    "lookahead_detections": 1,
+    "reads": 3098
+   },
+   "safety": {
+    "requests": 1874,
+    "allowed": 1873,
+    "blocked": 1,
+    "blocked_by_pair": [
+     "would enter g1 safety envelope"
+    ],
+    "executed": 0
+   },
+   "yields": {
+    "drone_climb": 0,
+    "go2_wait": 0,
+    "go2_reroute": 1
+   },
+   "executed_tokens": 0,
+   "m4": {
+    "replans": 0,
+    "replan_latencies_ms": [],
+    "go2_path_m": 3.7913691520513306
+   },
+   "scenario": "m4_two_routes"
+  },
+  "T5_no_route": {
+   "ok": false,
+   "t": 180.0,
+   "why": "timeout at stage reached",
+   "stage_times": {
+    "sighted": 2.37
+   },
+   "events": [
+    [
+     0.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     2.37,
+     "drone",
+     "CRATE_SIGHTED"
+    ],
+    [
+     3.65,
+     "go2",
+     "REROUTE_BEST_EFFORT"
+    ],
+    [
+     3.66,
+     "go2",
+     "REPLAN_NO_ROUTE"
+    ],
+    [
+     5.66,
+     "go2",
+     "REPLAN_NO_ROUTE"
+    ],
+    [
+     7.66,
+     "go2",
+     "REPLAN_NO_ROUTE"
+    ],
+    [
+     9.66,
+     "go2",
+     "REPLAN_NO_ROUTE"
+    ],
+    [
+     10.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     11.66,
+     "go2",
+     "REPLAN_NO_ROUTE"
+    ],
+    [
+     20.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     20.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     20.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     20.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     21.47,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     29.64,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     30.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     30.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     30.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     30.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     37.73,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     40.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     40.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     40.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     40.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     47.37,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     50.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     50.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     50.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     50.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     55.01,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     60.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     60.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     60.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     60.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     67.95,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     70.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     70.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     70.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     70.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     79.44,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     80.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     80.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     80.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     80.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     88.45,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     90.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     90.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     90.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     90.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     97.28,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     100.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     100.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     100.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     100.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     107.64,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     110.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     110.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     110.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     110.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     117.97,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     120.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     120.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     120.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     120.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     126.44,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     130.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     130.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     130.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     130.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     135.2,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     137.42,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     140.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     140.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     140.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     140.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     147.91,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     150.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     150.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     150.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     150.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     156.71,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     160.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     160.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     160.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     160.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     168.51,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     170.02,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     170.02,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     170.02,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     170.02,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     176.29,
+     "go2",
+     "ESCAPE_INSERTED"
+    ]
+   ],
+   "messages": 97,
+   "bus_reads": 36000,
+   "proximity": {
+    "pairs": 6,
+    "conflict_events": 0,
+    "clear_events": 0,
+    "min_gap_by_pair": {
+     "drone-go2": null,
+     "go2-panda": 1.728,
+     "g1-go2": 0.344,
+     "drone-panda": 2.059,
+     "drone-g1": null,
+     "g1-panda": 2.679
+    },
+    "min_gap": 0.344,
+    "contacts": [],
+    "lookahead_detections": 19,
+    "reads": 36000
+   },
+   "safety": {
+    "requests": 36000,
+    "allowed": 35981,
+    "blocked": 19,
+    "blocked_by_pair": [
+     "would enter g1 safety envelope"
+    ],
+    "executed": 0
+   },
+   "yields": {
+    "drone_climb": 0,
+    "go2_wait": 18,
+    "go2_reroute": 1
+   },
+   "executed_tokens": 0,
+   "m4": {
+    "replans": 5,
+    "replan_latencies_ms": [
+     1.7413339810445905,
+     1.752333017066121,
+     1.7532079946249723,
+     1.7443329852540046,
+     1.70266701024957
+    ],
+    "go2_path_m": 24.886622641860303
+   },
+   "scenario": "m4_no_route"
+  },
+  "T6_repeated": {
+   "ok": true,
+   "t": 14.64,
+   "why": null,
+   "stage_times": {
+    "sighted": 2.095,
+    "reached": 8.53,
+    "dispatched": 9.635,
+    "stable": 14.64
+   },
+   "events": [
+    [
+     0.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     0.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     2.1,
+     "drone",
+     "CRATE_SIGHTED"
+    ],
+    [
+     2.1,
+     "go2",
+     "REROUTE_STARTED"
+    ],
+    [
+     3.43,
+     "go2",
+     "ESCAPE_INSERTED"
+    ],
+    [
+     3.5,
+     "go2",
+     "RESUME_DIRECT"
+    ],
+    [
+     8.53,
+     "go2",
+     "CRATE_REACHED"
+    ],
+    [
+     9.63,
+     "panda",
+     "PARCEL_DISPATCHED"
+    ],
+    [
+     10.01,
+     "go2",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "drone",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "panda",
+     "TELEMETRY"
+    ],
+    [
+     10.01,
+     "g1",
+     "TELEMETRY"
+    ],
+    [
+     14.64,
+     "g1",
+     "STATION_STABLE"
+    ]
+   ],
+   "messages": 15,
+   "bus_reads": 1927,
+   "proximity": {
+    "pairs": 6,
+    "conflict_events": 0,
+    "clear_events": 0,
+    "min_gap_by_pair": {
+     "drone-go2": null,
+     "go2-panda": 1.745,
+     "g1-go2": 0.378,
+     "drone-panda": 2.043,
+     "drone-g1": null,
+     "g1-panda": 0.699
+    },
+    "min_gap": 0.378,
+    "contacts": [],
+    "lookahead_detections": 2,
+    "reads": 2928
+   },
+   "safety": {
+    "requests": 1706,
+    "allowed": 1704,
+    "blocked": 2,
+    "blocked_by_pair": [
+     "would enter g1 safety envelope"
+    ],
+    "executed": 0
+   },
+   "yields": {
+    "drone_climb": 0,
+    "go2_wait": 1,
+    "go2_reroute": 1
+   },
+   "executed_tokens": 0,
+   "m4": {
+    "replans": 0,
+    "replan_latencies_ms": [],
+    "go2_path_m": 3.192658760309359
+   },
+   "scenario": "m4_repeated"
+  }
+ }
+}

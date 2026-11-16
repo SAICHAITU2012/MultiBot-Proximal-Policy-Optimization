@@ -1,0 +1,112 @@
+{
+  "suite": "test_m4_replan.py",
+  "purpose": "M4's own T3/T6 do not exercise the replan path (docs/M4_AUDIT.md F1)",
+  "version_hashes": {
+    "core/replan.py": "4231f9a0b4ab",
+    "core/proximity.py": "87cf02ce6c20",
+    "core/safety.py": "04b9bd000b5d",
+    "core/world.py": "3a71f87e0e26",
+    "missions/relay.py": "6898ab6082e2",
+    "robots/go2_drive.py": "58a4a2023f43"
+  },
+  "max_replans": 5,
+  "replan_min_gap": 2.0,
+  "A_commit_then_invalidate": {
+    "ok": true,
+    "replans": 1,
+    "events": [
+      "REROUTE_STARTED",
+      "ROUTE_REPLANNED",
+      "RESUME_DIRECT"
+    ],
+    "placements": [
+      [
+        4.0,
+        [
+          3.001631736755371,
+          0.7506904006004333
+        ],
+        [
+          2.07,
+          0.17
+        ],
+        null
+      ]
+    ],
+    "path_m": 5.076,
+    "t": 19.07,
+    "why": null,
+    "min_gap": 0.128,
+    "latency_ms": [
+      0.0007620419928571209
+    ]
+  },
+  "B_fuse_nonvacuous": {
+    "placements": 6,
+    "replans": 5,
+    "max_replans": 5,
+    "events": [
+      "ROUTE_REPLANNED",
+      "ROUTE_REPLANNED",
+      "REPLAN_NO_ROUTE",
+      "REPLAN_NO_ROUTE",
+      "ROUTE_REPLANNED"
+    ],
+    "ok": true,
+    "why": null,
+    "path_m": 6.2,
+    "min_gap": 0.068
+  },
+  "checks": [
+    {
+      "check": "A0 prerequisite: the dog was mid-execution when the obstacle appeared",
+      "status": "PASS",
+      "detail": "placed_at=4.0s travelled=5.08m"
+    },
+    {
+      "check": "A0b the obstacle was placed outside the conflict threshold (the conflict is a route violation, not a teleport artifact)",
+      "status": "PASS",
+      "detail": "surface gap at placement=0.42m (SAFE_GAP=0.22; no instantaneous conflict, the conflict is the ROUTE)"
+    },
+    {
+      "check": "A1 the committed route was invalidated and REPLANNED (replans >= 1)",
+      "status": "PASS",
+      "detail": "placed=[(4.0, (3.001631736755371, 0.7506904006004333), (2.07, 0.17), None)] replans=1 events=['REROUTE_STARTED', 'ROUTE_REPLANNED', 'RESUME_DIRECT'] t=19.1s path=5.08m why=completed"
+    },
+    {
+      "check": "A2 a ROUTE_REPLANNED event was published (a replacement was chosen)",
+      "status": "PASS",
+      "detail": "events=['REROUTE_STARTED', 'ROUTE_REPLANNED', 'RESUME_DIRECT']"
+    },
+    {
+      "check": "A3 the dog resumed and completed the mission after replanning",
+      "status": "PASS",
+      "detail": "why=completed t=19.1s"
+    },
+    {
+      "check": "A4 no go2-g1 contact during the replan",
+      "status": "PASS",
+      "detail": "min_gap=0.128"
+    },
+    {
+      "check": "B0 prerequisite: the fuse scenario actually produced replans",
+      "status": "PASS",
+      "detail": "5 replans over 6 placements"
+    },
+    {
+      "check": "B1 the replan budget is never exceeded (no infinite replanning loop)",
+      "status": "PASS",
+      "detail": "placements=6/6 replans=5 MAX_REPLANS=5 events=['ROUTE_REPLANNED', 'ROUTE_REPLANNED', 'REPLAN_NO_ROUTE', 'REPLAN_NO_ROUTE', 'ROUTE_REPLANNED'] path=6.20m"
+    },
+    {
+      "check": "B2 the outcome is honest (complete or deadlock) and contact-free",
+      "status": "PASS",
+      "detail": "ok=True why=completed min_gap=0.068"
+    }
+  ],
+  "summary": {
+    "pass": 9,
+    "fail": 0,
+    "skip": 0
+  }
+}
