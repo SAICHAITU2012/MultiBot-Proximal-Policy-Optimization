@@ -20,16 +20,21 @@ from pathlib import Path
 
 import torch
 
-GENESIS = Path("/Users/saichaitu/Desktop/Genesis")
-sys.path.insert(0, str(GENESIS / "team_lab" / "experiments"))
-sys.path.insert(0, str(GENESIS / "ecosystem"))
+ECOSYSTEM_ROOT = Path(__file__).resolve().parents[1]
+if str(ECOSYSTEM_ROOT) not in sys.path:
+    sys.path.insert(0, str(ECOSYSTEM_ROOT))
+
+from core.paths import TEAM_LAB_EXPERIMENTS, TEAM_LAB_LOGS  # noqa: E402
+
+if str(TEAM_LAB_EXPERIMENTS) not in sys.path:
+    sys.path.insert(0, str(TEAM_LAB_EXPERIMENTS))
 
 import genesis as gs  # noqa: E402
 import colo_env as CE  # noqa: E402  (reused, never modified)
 from robots.g1_stand import (G1Stand, G1StandPolicy, policy_params, load_env_args,  # noqa: E402
                              URDF as G1_URDF)
 
-LOGS = GENESIS / "team_lab" / "logs"
+LOGS = TEAM_LAB_LOGS
 # ONE clock at the G1's native rigid step (0.005 s = 200 Hz). Every robot is
 # serviced on its own period DERIVED FROM ITS TRAINED CONTROL RATE, so the
 # 200 Hz clock does not change how fast any policy is actually driven:

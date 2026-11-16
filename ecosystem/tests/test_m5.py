@@ -16,6 +16,7 @@ gate demands the DIAGNOSIS (M5.4's taxonomy), not just a verdict.
 import hashlib
 import json
 import math
+import os
 import subprocess
 import sys
 import time
@@ -304,11 +305,16 @@ def main():
         "schema_version": 1,
         "suite": "m5",
         "run": {
-            "argv": [sys.executable, *sys.argv],
-            "cwd": str(root),
+            "argv": ["python", "-u", "tests/test_m5.py"],
+            "cwd": ".",
             "git_head": git_head,
             "source_sha256": source_hashes,
             "python": sys.version.split()[0],
+            "path_overrides": sorted(
+                name for name in ("GENESIS_WORKSPACE_ROOT", "GENESIS_TEAM_LAB_ROOT",
+                                  "GENESIS_HUMANOID_ROOT", "GENESIS_WORLD_ROOT")
+                if os.environ.get(name)
+            ),
             "scene_dt_s": SCENE_DT,
             "physics_hz": round(1.0 / SCENE_DT),
         },

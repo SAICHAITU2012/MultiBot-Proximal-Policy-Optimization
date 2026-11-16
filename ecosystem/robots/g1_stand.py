@@ -24,8 +24,10 @@ from pathlib import Path
 
 import torch
 
-CFG_DIR = Path("/Users/saichaitu/Desktop/Genesis/Genesis-Humanoid/logs/g1-stand-s2/20261111_213159")
-URDF = Path("/Users/saichaitu/Desktop/Genesis/Genesis-Humanoid/assets/robot/unitree_g1/g1_29dof_simple_collision.urdf")
+from core.paths import G1_STAND_RUN_DIR, G1_URDF
+
+CFG_DIR = G1_STAND_RUN_DIR
+URDF = G1_URDF
 
 ACTION_SCALE = 0.25
 DECIMATION = 4
@@ -39,8 +41,11 @@ LOW_PASS_ALPHA = 0.5
 # --------------------------------------------------------------------------- #
 # config loading (yaml, from the checkpoint that produced the policy)
 # --------------------------------------------------------------------------- #
-def load_env_args(path: Path = CFG_DIR / "configs" / "env_args.yaml") -> dict:
+def load_env_args(path: Path | None = None) -> dict:
     import yaml
+
+    if path is None:
+        path = CFG_DIR / "configs" / "env_args.yaml"
 
     class _L(yaml.SafeLoader):
         pass

@@ -11,10 +11,17 @@ artifact and a console transcript. No mission, safety, navigation, or robot
 controller behavior was changed for this revalidation. The `team_lab` M8
 baseline remains untouched.
 
-Command from `ecosystem/`:
-`/Users/saichaitu/miniconda3/envs/genesis/bin/python -u tests/test_m5.py`.
+Command from `ecosystem/`, with the `genesis` conda environment active:
+`python -u tests/test_m5.py`.
 Exit code: 1, as required for the failing S5b gate. See
 `results/m5_acceptance.json` and `results/m5_acceptance.log`.
+
+The M5 artifact records the portable command, ecosystem-relative working
+directory, Python version, source hashes, and any configured path-override
+variable names; it does not store a machine-specific executable or checkout
+path. The checked-in M4/M5 transcript artifact-path prefixes were normalized
+to `<workspace>/ecosystem/`; no other transcript content was edited for
+portability.
 
 ## What was built
 

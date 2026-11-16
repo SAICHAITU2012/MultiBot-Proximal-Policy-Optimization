@@ -107,4 +107,4 @@
   T6 repeated   : {'replans': 0, 'latency_mean_ms': None, 'latency_max_ms': None, 'path_m': 3.192658760309359, 'efficiency': 1.065}
 
 M4 VERDICT: 10/10 checks pass
-  artifact: /Users/saichaitu/Desktop/Genesis/ecosystem/results/m4_acceptance.json
+  artifact: <workspace>/ecosystem/results/m4_acceptance.json

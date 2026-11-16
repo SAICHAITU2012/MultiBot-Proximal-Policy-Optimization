@@ -78,12 +78,13 @@ the lower values have no defensible provenance and do not establish a
 performance improvement. The earlier 0.3–0.6 ms report claim is withdrawn as
 unsupported.
 
-Revalidation ran from `ecosystem/` on Git HEAD
-`bdd8d874a529ac69dda4425e0d86142c1d34bac2` plus the unit-only change above:
+Revalidation ran from `ecosystem/` in the `genesis` conda environment on Git
+HEAD `bdd8d874a529ac69dda4425e0d86142c1d34bac2` plus the unit-only change
+above. From an activated `genesis` environment, rerun with:
 
 ```text
-/Users/saichaitu/miniconda3/envs/genesis/bin/python -u tests/test_m4.py
-/Users/saichaitu/miniconda3/envs/genesis/bin/python -u tests/test_m4_replan.py
+python -u tests/test_m4.py
+python -u tests/test_m4_replan.py
 ```
 
 Both exited 0: M4 **10/10**, live invalidation **9 PASS, 0 FAIL, 0 SKIP**.
@@ -104,6 +105,10 @@ core/world.py           1217365ae9d30218004ceea660001ff48350a373c7a4ff4b73fee035
 tests/test_m4.py        a56829503f7570dd468de5a9c026ea6e919f0290abe59271377238194f48d1b5
 tests/test_m4_replan.py 74fff2dd7ac9ba14a0c5ea2e0210e6c3cd39cbc6b2044b64f7a9694d3debe0ed
 ```
+
+The checked-in M4 revalidation transcript's local artifact-path prefix was
+normalized to `<workspace>/ecosystem/` for portability. The recorded test
+output and measured values were otherwise left unchanged.
 
 ## The four system findings M4 produced (each caught by a trace)
 
