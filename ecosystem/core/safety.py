@@ -53,9 +53,9 @@ class ConstraintLayer:
         return tok
 
     def execute(self, tok: int, executed_log: list):
-        """Record an executed action; refuse anything that was blocked."""
-        if tok in self._blocked:
-            raise Blocked(f"action token {tok} was blocked and must not execute")
+        """Record an executed action; refuse tokens without a grant."""
+        if tok not in self._granted:
+            raise Blocked(f"action token {tok} was not granted and must not execute")
         executed_log.append(tok)
 
     # -- yielding strategies --------------------------------------------
