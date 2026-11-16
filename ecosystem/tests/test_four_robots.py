@@ -5,7 +5,7 @@ M1 is NOT "four robots spawn". The criteria checked here are:
 
   A. four heterogeneous robots in ONE scene, one shared clock
   B. independent controller state per robot (own obs/action/rate, own identity)
-  C. per-robot control rates match each policy's trained rate
+  C. per-robot policy service rates match the configured runtime schedule
   D. state exchange: robots publish, a coordinator consumes, nothing is assumed
   E. a coordinated task that every robot must contribute to, in a dependency
      chain — and ABLATIONS that prove each contribution is load-bearing
@@ -93,7 +93,7 @@ def main():
     dt = w.sim_time - t0
     got = {k: round((w.tick_counts[k] - c0[k]) / dt) for k in w.tick_counts}
     want = {"go2": 25, "drone": 200, "panda": 50, "g1": 50}
-    check("per-robot Hz matches each policy's trained rate", got == want, f"{got} (want {want})")
+    check("per-robot Hz matches the runtime schedule", got == want, f"{got} (want {want})")
     check("single shared clock", abs(dt - 1000 * SCENE_DT) < 1e-9, f"{dt:.2f}s of sim in 1000 steps")
 
     # ---- D + E: coordinated mission + ablations ------------------------

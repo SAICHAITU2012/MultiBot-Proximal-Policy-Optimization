@@ -23,6 +23,12 @@ Audit of every reusable asset before any ecosystem code was written. Every hash 
 
 Validated in the delivered mission; all five are PPO MLPs loadable through `colo_env.load_actor_from_log`.
 
+The **Rate** column records the upstream policy/checkpoint cadence from the M0
+asset audit. It is not the ecosystem's current runtime service schedule. In the
+shared 200 Hz scene, the M1 runtime schedule is Go2 25 Hz, drone 200 Hz, and
+Panda 50 Hz; the G1 stands at 50 Hz. See `docs/M1_REPORT.md` and
+`core/timing.py` for runtime rates and physics-tick periods.
+
 | Asset | Robot / capability | obs → act | Rate | md5 | Status |
 |---|---|---|---|---|---|
 | `logs/go2-nav/model_800.pt` | Go2 locomotion (velocity tracking) | 45 → 12 | 50 Hz | `7100a54f3313` | ✅ mission-verified |

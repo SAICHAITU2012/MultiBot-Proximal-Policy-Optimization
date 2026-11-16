@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """world.py — one Genesis 1.4.5 scene, FOUR heterogeneous robots, one clock.
 
-    drone (crazyflie)  100 Hz   hover policy
-    go2   (quadruped)   50 Hz   locomotion policy
-    panda (arm)        100 Hz   reach policy
+Runtime policy service rates on the shared 200 Hz physics clock:
+    drone (crazyflie)  200 Hz   hover policy, reapplied every physics step
+    go2   (quadruped)   25 Hz   locomotion policy
+    panda (arm)         50 Hz   reach policy
     g1    (humanoid)    50 Hz   standing policy  <- ported, no retraining
 
 Reuses the existing agent wrappers read-only (`team_lab/experiments/colo_env.py`)
 so the verified mission code is never modified; the G1 is the new component.
 
 Each robot keeps its own observation buffers, action history and control rate.
-`step()` advances one 100 Hz scene step and services every robot on its own
+`step()` advances one 200 Hz physics step and services every robot on its own
 period from the SAME clock — no per-robot clocks, no wall-clock timing.
 """
 from __future__ import annotations
@@ -25,6 +26,7 @@ if str(ECOSYSTEM_ROOT) not in sys.path:
     sys.path.insert(0, str(ECOSYSTEM_ROOT))
 
 from core.paths import TEAM_LAB_EXPERIMENTS, TEAM_LAB_LOGS  # noqa: E402
+from core.timing import CONTROL_PERIOD_STEPS, PHYSICS_HZ, SCENE_DT, SUBSTEPS  # noqa: E402
 
 if str(TEAM_LAB_EXPERIMENTS) not in sys.path:
     sys.path.insert(0, str(TEAM_LAB_EXPERIMENTS))
@@ -35,18 +37,8 @@ from robots.g1_stand import (G1Stand, G1StandPolicy, policy_params, load_env_arg
                              URDF as G1_URDF)
 
 LOGS = TEAM_LAB_LOGS
-# ONE clock at the G1's native rigid step (0.005 s = 200 Hz). Every robot is
-# serviced on its own period DERIVED FROM ITS TRAINED CONTROL RATE, so the
-# 200 Hz clock does not change how fast any policy is actually driven:
-#   go2   25 Hz  -> every 8 steps   (the rate the validated team_lab mission
-#                                    actually ran it at: period 2 on a 50 Hz clock)
-#   drone 200 Hz -> every step (measured: its propellers lose thrust if the
-#                   rpm command is not re-issued each sim step)
-#   panda 50 Hz -> every 4 steps
-#   g1    50 Hz -> every 4 steps, torque recomputed EVERY step (200 Hz), which
-#                 is what its PD was trained with
-SCENE_DT = 0.005
-SUBSTEPS = 1
+# One shared 200 Hz physics clock. Controller service periods are derived from
+# core.timing.CONTROL_HZ; the drone command is reapplied on every physics tick.
 
 CRATE_XY = (1.20, 1.20)
 CRATE_SIZE = (0.35, 0.35, 0.15)
@@ -131,17 +123,18 @@ class World:
         # even starts, which is co-location, not coordination
         self.robots["panda"].external_control = True
 
-        # per-robot service periods, in 200 Hz clock steps
-        self.period = {"go2": 8, "drone": 1, "panda": 4}   # drone rpm must be reapplied every step
+        # Per-robot policy service periods, derived from the central rates.
+        self.period = {name: CONTROL_PERIOD_STEPS[name]
+                       for name in ("go2", "drone", "panda")}
         self.g1 = G1Stand(self.g1_e, policy_params(load_env_args()), G1StandPolicy())
-        self.g1_period = 4          # 50 Hz policy
+        self.g1_period = CONTROL_PERIOD_STEPS["g1"]
         self.g1_passive = False     # ablation hook: no policy -> it physically falls
         self.g1_fell = False
         self.g1_min_z = 1e9
         self.id = {k: k for k in self.robots}      # stable per-instance identity
         self.id["g1"] = "g1"
 
-        self.t = 0                  # shared clock, in 100 Hz steps
+        self.t = 0                  # shared clock, in physics steps at PHYSICS_HZ
         self.tick_counts = {k: 0 for k in (*self.robots, "g1")}   # audit: per-robot tick counts
 
     # ------------------------------------------------------------------ #
@@ -151,7 +144,7 @@ class World:
 
     @torch.inference_mode()
     def step(self):
-        """One 100 Hz step: service every robot on its own period, then physics."""
+        """One 200 Hz physics step: service policies, apply torque, advance scene."""
         for name, r in self.robots.items():
             if self.t % self.period[name] == 0:
                 r.tick()

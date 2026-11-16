@@ -22,7 +22,7 @@
       "detail": ""
     },
     {
-      "check": "per-robot Hz matches each policy's trained rate",
+      "check": "per-robot Hz matches the runtime schedule",
       "ok": true,
       "detail": "{'go2': 25, 'drone': 200, 'panda': 50, 'g1': 50} (want {'go2': 25, 'drone': 200, 'panda': 50, 'g1': 50})"
     },
@@ -79,19 +79,19 @@
     {
       "check": "peak RSS under the 16 GB machine budget",
       "ok": true,
-      "detail": "1.02 GiB"
+      "detail": "2.02 GiB"
     },
     {
       "check": "disk headroom still positive",
       "ok": true,
-      "detail": "16.8 GiB free"
+      "detail": "17.2 GiB free"
     }
   ],
-  "build_s": 83.3,
+  "build_s": 14.4,
   "sim_time": 15.1,
-  "sim_speed_x": 9.3,
-  "peak_rss_gib": 1.02,
-  "disk_free_gib": 16.8,
+  "sim_speed_x": 8.6,
+  "peak_rss_gib": 2.02,
+  "disk_free_gib": 17.2,
   "mission": {
     "ok": true,
     "t": 15.11,

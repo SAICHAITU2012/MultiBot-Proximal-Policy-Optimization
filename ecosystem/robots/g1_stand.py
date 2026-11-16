@@ -10,7 +10,7 @@ Source of truth: Genesis-Humanoid/logs/g1-stand-s2/.../checkpoint_final.pt
              v_lp    += alpha*(v_des - v_lp)                 alpha=0.5
              q_force  = kp*(tgt + default - dof_pos) + kd*(-dof_vel + ff*v_lp)
            clamped to per-joint torque limits; recomputed EVERY sim step.
-  sim    : dt 0.005, decimation 4  -> 50 Hz policy
+  sim    : runtime dt and controller period come from core.timing
   obs    : [last_action(29), dof_pos(29), dof_vel*0.1(29),
             projected_gravity(3), base_ang_vel*0.5(3), commands(3)] = 96
 
@@ -25,14 +25,16 @@ from pathlib import Path
 import torch
 
 from core.paths import G1_STAND_RUN_DIR, G1_URDF
+from core.timing import CONTROL_HZ as ROBOT_CONTROL_HZ
+from core.timing import CONTROL_PERIOD_STEPS, SCENE_DT
 
 CFG_DIR = G1_STAND_RUN_DIR
 URDF = G1_URDF
 
 ACTION_SCALE = 0.25
-DECIMATION = 4
-SIM_DT = 0.005
-CONTROL_HZ = 1.0 / (SIM_DT * DECIMATION)
+DECIMATION = CONTROL_PERIOD_STEPS["g1"]
+SIM_DT = SCENE_DT
+CONTROL_HZ = ROBOT_CONTROL_HZ["g1"]
 CONTROL_DT = SIM_DT * DECIMATION
 OBS_DIM = 96
 LOW_PASS_ALPHA = 0.5
@@ -77,7 +79,8 @@ def policy_params(env_args: dict) -> dict:
     ra = env_args["robot_args"]
     jn = list(ra["dof_names"])
     assert ra.get("ctrl_type") == "DR_JOINT_POSITION_VELOCITY", ra.get("ctrl_type")
-    assert int(ra.get("ctrl_freq", 50)) == 50 and int(ra.get("decimation", 4)) == 4
+    assert int(ra.get("ctrl_freq", CONTROL_HZ)) == CONTROL_HZ
+    assert int(ra.get("decimation", DECIMATION)) == DECIMATION
     return {
         "joint_names": jn,
         "default_dof_pos": _expand(ra["default_dof_pos"], jn),

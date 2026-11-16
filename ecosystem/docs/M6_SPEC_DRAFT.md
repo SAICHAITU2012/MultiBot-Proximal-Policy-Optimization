@@ -45,7 +45,7 @@ or choose an already mobile embodiment for an explicitly separate prototype.
   robot. It must not assume a fixed robot count.
 - **Clock:** keep the current shared 200 Hz physics clock. Service each G1
   policy at its validated 50 Hz rate (one policy update per four physics
-  steps) and recompute torques at the policy/controller's validated rate.
+  steps) and recompute torques on every physics step at 200 Hz.
 
 ## Milestones and acceptance
 

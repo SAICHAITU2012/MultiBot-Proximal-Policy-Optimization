@@ -13,10 +13,17 @@ was introduced.
 
 | Criterion (your wording) | Evidence |
 |---|---|
-| operate on a **shared simulation clock** | one `World.step()` at 0.005 s; 1000 steps = 5.00 s exactly; per-robot tick counts prove one clock drives all four |
+| operate on a **shared simulation clock** | one `World.step()` at 0.005 s (200 Hz); 1000 steps = 5.00 s exactly; per-robot tick counts prove one clock drives all four |
 | maintain **independent controller states** | 4 separate entities, 4 separate action buffers, 4 different obs/action contracts: go2 45→12, drone 17→4, panda 14→6, g1 96→29 |
 | **exchange task/state information** | 8 bus messages per mission, 942 coordinator state reads; every stage transition is triggered by another robot's published report |
 | demonstrate **one coordinated multi-robot task** | 4-stage dependency chain, completed 3/3 runs at t=10.2 s, plus 4 ablations that each make it FAIL |
+
+The runtime schedule in the shared 200 Hz physics scene is Go2 25 Hz (one
+policy update per 8 physics ticks), drone 200 Hz (every tick), Panda 50 Hz
+(every 4 ticks), and G1 50 Hz (every 4 ticks). The G1 torque command is
+recomputed on every physics tick. These are the ecosystem's configured runtime
+service rates; they are distinct from upstream checkpoint training rates
+recorded in `docs/ASSET_INVENTORY.md`.
 
 The coordinated task, `missions/relay.py`:
 
@@ -80,7 +87,8 @@ you noted, those stay separate future capabilities.
 1. **Rigid timestep mismatch collapsed the G1.** The existing scene runs 0.02 s
    steps with 0.01 s rigid substeps — twice the G1's training step. At that
    cadence the port falls to z=0.13 m. Fix: one clock at **0.005 s**, with every
-   robot serviced on a period derived from its own trained rate.
+   robot serviced on its configured runtime period (not always the same as the
+   upstream checkpoint's training cadence; see the schedule above).
 2. **The drone loses thrust if its rpm is not re-issued every sim step.** Ticking
    it every 4th step → immediate crash (z=0.012). Verified by isolation:
    period 1 hovers (z=1.01), period 4 falls.
@@ -143,12 +151,15 @@ cd ../team_lab/team && python mission.py --packages 2 --planner rule --max-steps
 ```
 
 Artifacts: `results/m1_acceptance.json`, `results/m1_repeatability.json`.
+The 2026-11-16 INF-02 clock/configuration regression also passed 17/17; its
+transcript is `results/m1_acceptance_inf02.log`. Machine-cost readings are
+per-run observations and do not change the original M1 report values above.
 
 ## 7. Files added (all new, nothing existing touched)
 
 ```
 ecosystem/
-  core/world.py            one scene, 4 robots, one 0.005 s clock, per-robot rates
+  core/world.py            one scene, 4 robots, one 200 Hz physics clock, per-robot rates
   robots/g1_stand.py       G1 standing port (exact PD + feed-forward contract)
   missions/relay.py        coordinated 4-stage task + message bus + ablations
   tests/test_g1_stand.py   port acceptance vs the 0.3.13 baseline

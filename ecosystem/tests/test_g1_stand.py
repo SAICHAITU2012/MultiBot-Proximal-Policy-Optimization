@@ -17,6 +17,7 @@ import genesis as gs
 
 from robots.g1_stand import (G1Stand, G1StandPolicy, policy_params, load_env_args,
                              URDF, SIM_DT, DECIMATION)
+from core.timing import SUBSTEPS
 
 PLANE = "urdf/plane/plane.urdf"  # resolved against the genesis assets dir
 SECONDS = float(sys.argv[1]) if len(sys.argv) > 1 else 10.0
@@ -33,7 +34,7 @@ def tilt(quat):
 def main():
     gs.init(backend=gs.cpu, precision="32", logging_level="warning")
     scene = gs.Scene(
-        sim_options=gs.options.SimOptions(dt=SIM_DT, substeps=1),
+        sim_options=gs.options.SimOptions(dt=SIM_DT, substeps=SUBSTEPS),
         rigid_options=gs.options.RigidOptions(
             dt=SIM_DT, enable_collision=True, enable_joint_limit=True,
             enable_self_collision=False,
