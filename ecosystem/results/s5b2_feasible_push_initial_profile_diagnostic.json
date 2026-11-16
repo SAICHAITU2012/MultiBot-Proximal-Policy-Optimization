@@ -1,0 +1,2175 @@
+{
+  "schema_version": 1,
+  "experiment": "S5b.2 feasible clearance-increase push",
+  "status": "failed",
+  "run": {
+    "git_head": "3d390bbc8396396c1b58b43848c270ebcc177a2b",
+    "python": "3.11.18",
+    "genesis": "1.4.5",
+    "physics_dt_s": 0.005,
+    "physics_hz": 200,
+    "policy_update_hz": 50,
+    "policy_period_steps": 4,
+    "max_sim_time_s": 60.0,
+    "seeds": [
+      11
+    ],
+    "path_overrides": [
+      "GENESIS_WORKSPACE_ROOT"
+    ]
+  },
+  "model": {
+    "asset": "team_lab/logs/go2-push-s5/model_800.pt",
+    "md5": "c56f741011b2b2614279353abd702ee5",
+    "sha256": "123feb33d13d0361eac4ba09528eb79be855ee6048c5690522a9aac6d2348bf9",
+    "observation_dim": 49,
+    "action_dim": 12,
+    "policy_hz": 50,
+    "cfg_sha256": "41cd2b0f9c174932004e6748094828dc0ee44160b634483cd47f96f2842c957f"
+  },
+  "configuration": {
+    "crate_start_xy": [
+      0.0,
+      1.2
+    ],
+    "crate_size_m": [
+      0.35,
+      0.35,
+      0.15
+    ],
+    "crate_mass_kg": 7.0,
+    "blocker_center_xy": [
+      1.3,
+      1.2
+    ],
+    "blocker_size_m": [
+      0.35,
+      0.35,
+      0.4
+    ],
+    "robot_contact_side_angle_deg": 59.99999999999999,
+    "push_direction_deg": 239.99999999999997,
+    "target_distance_m": 0.9,
+    "max_speed_reachability_bound_m_s": 2.0
+  },
+  "acceptance_criteria": {
+    "fixed_seed_trials": 1,
+    "required_passes": 1,
+    "each_trial": [
+      "collision-free route preflight to the learned push contact path",
+      "task completes with the frozen Go2 push actor",
+      "crate displacement >= 0.40 m",
+      "final crate/blocker center distance >= 0.50 m and >= start + 0.10 m",
+      "final crate/blocker center distance >= 1.40 m",
+      "positive signed SAT footprint gap and increased footprint clearance",
+      "measured Go2/crate rigid contact for >= 0.10 s",
+      "no falls, no robot/column contact, no crate/column contact",
+      "Go2/column surface gap >= 0.22 m and no denied safety requests"
+    ]
+  },
+  "trials": [
+    {
+      "seed": 11,
+      "passed": false,
+      "reason": "push_policy_stroke_timeout",
+      "preflight": {
+        "route_to_launch_and_contact_clear": true,
+        "route_rejected_by": [],
+        "go2_spawn_xy": [
+          1.696221,
+          4.143919
+        ],
+        "launch_xy": [
+          0.475,
+          2.022724
+        ],
+        "contact_xy": [
+          0.25,
+          1.633013
+        ],
+        "goal_xy": [
+          -0.45,
+          0.420577
+        ],
+        "crate_blocker_center_distance_m": 1.3,
+        "crate_blocker_signed_sat_gap_m": 0.95,
+        "go2_blocker_initial_surface_gap_m": 2.31,
+        "go2_blocker_required_surface_gap_m": 0.22,
+        "go2_blocker_approach_min_center_distance_m": 1.125833,
+        "go2_blocker_approach_min_surface_gap_m": 0.465833,
+        "approach_surface_gap_after_safety_margin_m": 0.245833,
+        "push_observation_shape": [
+          1,
+          49
+        ],
+        "push_action_shape": [
+          1,
+          12
+        ]
+      },
+      "simulated_time_s": 10.46,
+      "task_complete_time_s": null,
+      "push_actor_handoff_time_s": 4.44,
+      "push_actor_handoff_xy": [
+        0.533082,
+        2.094356
+      ],
+      "crate": {
+        "start_xy": [
+          0.0,
+          1.2
+        ],
+        "end_xy": [
+          -0.032935,
+          1.125605
+        ],
+        "goal_xy": [
+          -0.45,
+          0.420577
+        ],
+        "displacement_m": 0.081359,
+        "start_blocker_center_distance_m": 1.3,
+        "end_blocker_center_distance_m": 1.335009,
+        "minimum_blocker_center_distance_m": 1.3,
+        "start_signed_sat_footprint_gap_m": 0.95,
+        "end_signed_sat_footprint_gap_m": 0.981314,
+        "minimum_signed_sat_footprint_gap_m": 0.95
+      },
+      "safety": {
+        "go2_blocker_min_surface_gap_m": 0.387913,
+        "required_surface_gap_m": 0.22,
+        "go2_blocker_contact": false,
+        "crate_blocker_contact": false,
+        "stop_reason": "push_policy_stroke_timeout",
+        "layer": {
+          "requests": 524,
+          "allowed": 524,
+          "blocked": 0,
+          "blocked_by_pair": [],
+          "executed": 523
+        }
+      },
+      "contact": {
+        "physical_contact_events": 16,
+        "contact_physics_ticks": 915,
+        "longest_continuous_contact_s": 3.595,
+        "max_contact_force_n": 1120.289307,
+        "mean_contact_force_n": 48.280723
+      },
+      "locomotion": {
+        "minimum_base_z_m": 0.238217,
+        "maximum_base_z_m": 0.419755,
+        "fall_recovery_events": 0
+      },
+      "task_complete": false,
+      "task_result": null,
+      "acceptance": {
+        "safe_route_preflight": true,
+        "task_completed": false,
+        "crate_displacement_ge_0p40m": false,
+        "final_center_distance_ge_0p50m": true,
+        "clearance_improved_by_ge_0p10m": false,
+        "final_center_distance_ge_1p40m": false,
+        "footprints_remain_disjoint": true,
+        "footprint_clearance_increased": false,
+        "measured_stable_contact_ge_0p10s": true,
+        "zero_fall_recovery": true,
+        "zero_go2_blocker_contact": true,
+        "zero_crate_blocker_contact": true,
+        "minimum_go2_safety_gap_met": true,
+        "no_safety_denials": true
+      },
+      "trace": [
+        {
+          "sim_time_s": 0.005,
+          "go2_xy": [
+            1.6962,
+            4.1439
+          ],
+          "go2_z_m": 0.4198,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.3105,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.105,
+          "go2_xy": [
+            1.6961,
+            4.1437
+          ],
+          "go2_z_m": 0.363,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.3103,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.205,
+          "go2_xy": [
+            1.695,
+            4.1439
+          ],
+          "go2_z_m": 0.297,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.3103,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.305,
+          "go2_xy": [
+            1.699,
+            4.1525
+          ],
+          "go2_z_m": 0.2932,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.3193,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.405,
+          "go2_xy": [
+            1.6987,
+            4.1553
+          ],
+          "go2_z_m": 0.3082,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.3221,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.505,
+          "go2_xy": [
+            1.684,
+            4.1428
+          ],
+          "go2_z_m": 0.3099,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.3078,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.605,
+          "go2_xy": [
+            1.6646,
+            4.1153
+          ],
+          "go2_z_m": 0.3073,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.278,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.705,
+          "go2_xy": [
+            1.6492,
+            4.0862
+          ],
+          "go2_z_m": 0.3079,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.2473,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.805,
+          "go2_xy": [
+            1.6313,
+            4.0442
+          ],
+          "go2_z_m": 0.299,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.2035,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 0.905,
+          "go2_xy": [
+            1.6086,
+            3.9935
+          ],
+          "go2_z_m": 0.3005,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.1505,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.005,
+          "go2_xy": [
+            1.5762,
+            3.9344
+          ],
+          "go2_z_m": 0.3021,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.0883,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.105,
+          "go2_xy": [
+            1.5342,
+            3.8693
+          ],
+          "go2_z_m": 0.3051,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 2.0195,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.205,
+          "go2_xy": [
+            1.49,
+            3.8025
+          ],
+          "go2_z_m": 0.3056,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.9494,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.305,
+          "go2_xy": [
+            1.4526,
+            3.7238
+          ],
+          "go2_z_m": 0.3079,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.8684,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.405,
+          "go2_xy": [
+            1.4192,
+            3.6431
+          ],
+          "go2_z_m": 0.313,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.786,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.505,
+          "go2_xy": [
+            1.3824,
+            3.5606
+          ],
+          "go2_z_m": 0.3093,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.7021,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.605,
+          "go2_xy": [
+            1.3442,
+            3.4933
+          ],
+          "go2_z_m": 0.313,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.6337,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.705,
+          "go2_xy": [
+            1.3083,
+            3.4224
+          ],
+          "go2_z_m": 0.3138,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.5624,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.805,
+          "go2_xy": [
+            1.2781,
+            3.3553
+          ],
+          "go2_z_m": 0.3137,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.4954,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 1.905,
+          "go2_xy": [
+            1.2511,
+            3.3039
+          ],
+          "go2_z_m": 0.3173,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.4445,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.005,
+          "go2_xy": [
+            1.2187,
+            3.2575
+          ],
+          "go2_z_m": 0.2996,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.3991,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.105,
+          "go2_xy": [
+            1.1952,
+            3.2248
+          ],
+          "go2_z_m": 0.3208,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.3675,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.205,
+          "go2_xy": [
+            1.1539,
+            3.1819
+          ],
+          "go2_z_m": 0.315,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.3273,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.305,
+          "go2_xy": [
+            1.1135,
+            3.1351
+          ],
+          "go2_z_m": 0.314,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.284,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.405,
+          "go2_xy": [
+            1.0741,
+            3.0792
+          ],
+          "go2_z_m": 0.312,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.2328,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.505,
+          "go2_xy": [
+            1.043,
+            3.0304
+          ],
+          "go2_z_m": 0.3204,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.1884,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.605,
+          "go2_xy": [
+            1.0202,
+            2.9836
+          ],
+          "go2_z_m": 0.3271,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.1454,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.705,
+          "go2_xy": [
+            0.9939,
+            2.9292
+          ],
+          "go2_z_m": 0.3143,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.0961,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.805,
+          "go2_xy": [
+            0.9748,
+            2.877
+          ],
+          "go2_z_m": 0.3281,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 1.0482,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 2.905,
+          "go2_xy": [
+            0.9441,
+            2.8188
+          ],
+          "go2_z_m": 0.3163,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.9974,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.005,
+          "go2_xy": [
+            0.9157,
+            2.7552
+          ],
+          "go2_z_m": 0.3096,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.942,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.105,
+          "go2_xy": [
+            0.8889,
+            2.6972
+          ],
+          "go2_z_m": 0.3189,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.8926,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.205,
+          "go2_xy": [
+            0.8658,
+            2.6457
+          ],
+          "go2_z_m": 0.3211,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.8495,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.305,
+          "go2_xy": [
+            0.8457,
+            2.5985
+          ],
+          "go2_z_m": 0.3226,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.8104,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.405,
+          "go2_xy": [
+            0.822,
+            2.5502
+          ],
+          "go2_z_m": 0.3176,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.7723,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.505,
+          "go2_xy": [
+            0.8005,
+            2.5026
+          ],
+          "go2_z_m": 0.3272,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.7351,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.605,
+          "go2_xy": [
+            0.7696,
+            2.4501
+          ],
+          "go2_z_m": 0.3205,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.698,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.705,
+          "go2_xy": [
+            0.7386,
+            2.3965
+          ],
+          "go2_z_m": 0.3055,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.6617,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.805,
+          "go2_xy": [
+            0.7131,
+            2.3536
+          ],
+          "go2_z_m": 0.3225,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.6344,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 3.905,
+          "go2_xy": [
+            0.6926,
+            2.314
+          ],
+          "go2_z_m": 0.3245,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.6089,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 4.005,
+          "go2_xy": [
+            0.6711,
+            2.2736
+          ],
+          "go2_z_m": 0.3129,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.5842,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 4.105,
+          "go2_xy": [
+            0.6533,
+            2.2415
+          ],
+          "go2_z_m": 0.3168,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.5659,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 4.205,
+          "go2_xy": [
+            0.6254,
+            2.2027
+          ],
+          "go2_z_m": 0.3171,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.5485,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 4.305,
+          "go2_xy": [
+            0.5853,
+            2.1591
+          ],
+          "go2_z_m": 0.3149,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.5361,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 4.405,
+          "go2_xy": [
+            0.5426,
+            2.111
+          ],
+          "go2_z_m": 0.3101,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.5248,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "retreat"
+        },
+        {
+          "sim_time_s": 4.505,
+          "go2_xy": [
+            0.512,
+            2.0621
+          ],
+          "go2_z_m": 0.3266,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.508,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 4.605,
+          "go2_xy": [
+            0.4894,
+            1.9998
+          ],
+          "go2_z_m": 0.3193,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.4787,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 4.705,
+          "go2_xy": [
+            0.474,
+            1.9335
+          ],
+          "go2_z_m": 0.3081,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.4446,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 4.805,
+          "go2_xy": [
+            0.4644,
+            1.8659
+          ],
+          "go2_z_m": 0.2811,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.4084,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 4.905,
+          "go2_xy": [
+            0.4322,
+            1.7966
+          ],
+          "go2_z_m": 0.2753,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.3931,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.005,
+          "go2_xy": [
+            0.3874,
+            1.7314
+          ],
+          "go2_z_m": 0.2593,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.396,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.105,
+          "go2_xy": [
+            0.3606,
+            1.6646
+          ],
+          "go2_z_m": 0.243,
+          "crate_xy": [
+            0.0,
+            1.2
+          ],
+          "crate_blocker_center_distance_m": 1.3,
+          "crate_blocker_signed_sat_gap_m": 0.95,
+          "go2_blocker_surface_gap_m": 0.388,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.205,
+          "go2_xy": [
+            0.3309,
+            1.6157
+          ],
+          "go2_z_m": 0.2533,
+          "crate_xy": [
+            -0.0111,
+            1.1887
+          ],
+          "crate_blocker_center_distance_m": 1.3111,
+          "crate_blocker_signed_sat_gap_m": 0.9607,
+          "go2_blocker_surface_gap_m": 0.3945,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.305,
+          "go2_xy": [
+            0.2923,
+            1.5648
+          ],
+          "go2_z_m": 0.2789,
+          "crate_xy": [
+            -0.0123,
+            1.1879
+          ],
+          "crate_blocker_center_distance_m": 1.3123,
+          "crate_blocker_signed_sat_gap_m": 0.962,
+          "go2_blocker_surface_gap_m": 0.4117,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.405,
+          "go2_xy": [
+            0.2757,
+            1.5103
+          ],
+          "go2_z_m": 0.2957,
+          "crate_xy": [
+            -0.0122,
+            1.188
+          ],
+          "crate_blocker_center_distance_m": 1.3122,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4103,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.505,
+          "go2_xy": [
+            0.2644,
+            1.4488
+          ],
+          "go2_z_m": 0.2865,
+          "crate_xy": [
+            -0.0122,
+            1.188
+          ],
+          "crate_blocker_center_distance_m": 1.3122,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.405,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.605,
+          "go2_xy": [
+            0.241,
+            1.3835
+          ],
+          "go2_z_m": 0.2855,
+          "crate_xy": [
+            -0.0122,
+            1.188
+          ],
+          "crate_blocker_center_distance_m": 1.3122,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4147,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.705,
+          "go2_xy": [
+            0.2165,
+            1.324
+          ],
+          "go2_z_m": 0.2871,
+          "crate_xy": [
+            -0.0124,
+            1.1879
+          ],
+          "crate_blocker_center_distance_m": 1.3125,
+          "crate_blocker_signed_sat_gap_m": 0.962,
+          "go2_blocker_surface_gap_m": 0.4306,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.805,
+          "go2_xy": [
+            0.2181,
+            1.2646
+          ],
+          "go2_z_m": 0.275,
+          "crate_xy": [
+            -0.0124,
+            1.188
+          ],
+          "crate_blocker_center_distance_m": 1.3125,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4238,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 5.905,
+          "go2_xy": [
+            0.2137,
+            1.219
+          ],
+          "go2_z_m": 0.2699,
+          "crate_xy": [
+            -0.0124,
+            1.188
+          ],
+          "crate_blocker_center_distance_m": 1.3125,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4264,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.005,
+          "go2_xy": [
+            0.1902,
+            1.1693
+          ],
+          "go2_z_m": 0.2724,
+          "crate_xy": [
+            -0.0124,
+            1.188
+          ],
+          "crate_blocker_center_distance_m": 1.3125,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4503,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.105,
+          "go2_xy": [
+            0.1627,
+            1.1152
+          ],
+          "go2_z_m": 0.2856,
+          "crate_xy": [
+            -0.0125,
+            1.1881
+          ],
+          "crate_blocker_center_distance_m": 1.3126,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4805,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.205,
+          "go2_xy": [
+            0.1515,
+            1.0476
+          ],
+          "go2_z_m": 0.2738,
+          "crate_xy": [
+            -0.0125,
+            1.1882
+          ],
+          "crate_blocker_center_distance_m": 1.3125,
+          "crate_blocker_signed_sat_gap_m": 0.9619,
+          "go2_blocker_surface_gap_m": 0.4986,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.305,
+          "go2_xy": [
+            0.1253,
+            0.9925
+          ],
+          "go2_z_m": 0.2612,
+          "crate_xy": [
+            -0.0121,
+            1.1877
+          ],
+          "crate_blocker_center_distance_m": 1.3122,
+          "crate_blocker_signed_sat_gap_m": 0.9616,
+          "go2_blocker_surface_gap_m": 0.5329,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.405,
+          "go2_xy": [
+            0.0847,
+            0.9282
+          ],
+          "go2_z_m": 0.2597,
+          "crate_xy": [
+            -0.0126,
+            1.1805
+          ],
+          "crate_blocker_center_distance_m": 1.3128,
+          "crate_blocker_signed_sat_gap_m": 0.9615,
+          "go2_blocker_surface_gap_m": 0.5854,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.505,
+          "go2_xy": [
+            0.0508,
+            0.8995
+          ],
+          "go2_z_m": 0.2521,
+          "crate_xy": [
+            -0.0209,
+            1.1544
+          ],
+          "crate_blocker_center_distance_m": 1.3217,
+          "crate_blocker_signed_sat_gap_m": 0.9675,
+          "go2_blocker_surface_gap_m": 0.6248,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.605,
+          "go2_xy": [
+            0.0248,
+            0.8872
+          ],
+          "go2_z_m": 0.2421,
+          "crate_xy": [
+            -0.0266,
+            1.1389
+          ],
+          "crate_blocker_center_distance_m": 1.328,
+          "crate_blocker_signed_sat_gap_m": 0.9757,
+          "go2_blocker_surface_gap_m": 0.653,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.705,
+          "go2_xy": [
+            -0.0122,
+            0.8763
+          ],
+          "go2_z_m": 0.2401,
+          "crate_xy": [
+            -0.0267,
+            1.1382
+          ],
+          "crate_blocker_center_distance_m": 1.3281,
+          "crate_blocker_signed_sat_gap_m": 0.9758,
+          "go2_blocker_surface_gap_m": 0.6915,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.805,
+          "go2_xy": [
+            -0.0415,
+            0.8821
+          ],
+          "go2_z_m": 0.2443,
+          "crate_xy": [
+            -0.0268,
+            1.1381
+          ],
+          "crate_blocker_center_distance_m": 1.3282,
+          "crate_blocker_signed_sat_gap_m": 0.9759,
+          "go2_blocker_surface_gap_m": 0.7187,
+          "go2_crate_contact": false,
+          "go2_crate_contact_count": 0,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 6.905,
+          "go2_xy": [
+            -0.0532,
+            0.882
+          ],
+          "go2_z_m": 0.2444,
+          "crate_xy": [
+            -0.0298,
+            1.1345
+          ],
+          "crate_blocker_center_distance_m": 1.3314,
+          "crate_blocker_signed_sat_gap_m": 0.9792,
+          "go2_blocker_surface_gap_m": 0.73,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.005,
+          "go2_xy": [
+            -0.0558,
+            0.8765
+          ],
+          "go2_z_m": 0.2419,
+          "crate_xy": [
+            -0.0306,
+            1.1333
+          ],
+          "crate_blocker_center_distance_m": 1.3323,
+          "crate_blocker_signed_sat_gap_m": 0.9796,
+          "go2_blocker_surface_gap_m": 0.7339,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.105,
+          "go2_xy": [
+            -0.054,
+            0.8768
+          ],
+          "go2_z_m": 0.2407,
+          "crate_xy": [
+            -0.0326,
+            1.1306
+          ],
+          "crate_blocker_center_distance_m": 1.3344,
+          "crate_blocker_signed_sat_gap_m": 0.9811,
+          "go2_blocker_surface_gap_m": 0.7321,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.205,
+          "go2_xy": [
+            -0.0525,
+            0.876
+          ],
+          "go2_z_m": 0.242,
+          "crate_xy": [
+            -0.0327,
+            1.1303
+          ],
+          "crate_blocker_center_distance_m": 1.3345,
+          "crate_blocker_signed_sat_gap_m": 0.9811,
+          "go2_blocker_surface_gap_m": 0.7308,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.305,
+          "go2_xy": [
+            -0.0525,
+            0.8759
+          ],
+          "go2_z_m": 0.2425,
+          "crate_xy": [
+            -0.0327,
+            1.1301
+          ],
+          "crate_blocker_center_distance_m": 1.3345,
+          "crate_blocker_signed_sat_gap_m": 0.9811,
+          "go2_blocker_surface_gap_m": 0.7308,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.405,
+          "go2_xy": [
+            -0.053,
+            0.8757
+          ],
+          "go2_z_m": 0.2419,
+          "crate_xy": [
+            -0.0327,
+            1.1299
+          ],
+          "crate_blocker_center_distance_m": 1.3346,
+          "crate_blocker_signed_sat_gap_m": 0.9811,
+          "go2_blocker_surface_gap_m": 0.7313,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.505,
+          "go2_xy": [
+            -0.0534,
+            0.8754
+          ],
+          "go2_z_m": 0.2411,
+          "crate_xy": [
+            -0.0328,
+            1.1297
+          ],
+          "crate_blocker_center_distance_m": 1.3346,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7318,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.605,
+          "go2_xy": [
+            -0.0532,
+            0.8752
+          ],
+          "go2_z_m": 0.2407,
+          "crate_xy": [
+            -0.0328,
+            1.1295
+          ],
+          "crate_blocker_center_distance_m": 1.3346,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7317,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.705,
+          "go2_xy": [
+            -0.0527,
+            0.875
+          ],
+          "go2_z_m": 0.2407,
+          "crate_xy": [
+            -0.0328,
+            1.1293
+          ],
+          "crate_blocker_center_distance_m": 1.3347,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7312,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.805,
+          "go2_xy": [
+            -0.0522,
+            0.8749
+          ],
+          "go2_z_m": 0.2408,
+          "crate_xy": [
+            -0.0328,
+            1.1292
+          ],
+          "crate_blocker_center_distance_m": 1.3347,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7307,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 7.905,
+          "go2_xy": [
+            -0.0518,
+            0.8748
+          ],
+          "go2_z_m": 0.2408,
+          "crate_xy": [
+            -0.0328,
+            1.129
+          ],
+          "crate_blocker_center_distance_m": 1.3347,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7303,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.005,
+          "go2_xy": [
+            -0.0515,
+            0.8747
+          ],
+          "go2_z_m": 0.2407,
+          "crate_xy": [
+            -0.0328,
+            1.1288
+          ],
+          "crate_blocker_center_distance_m": 1.3347,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7301,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.105,
+          "go2_xy": [
+            -0.0513,
+            0.8746
+          ],
+          "go2_z_m": 0.2405,
+          "crate_xy": [
+            -0.0328,
+            1.1287
+          ],
+          "crate_blocker_center_distance_m": 1.3347,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7299,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.205,
+          "go2_xy": [
+            -0.051,
+            0.8745
+          ],
+          "go2_z_m": 0.2403,
+          "crate_xy": [
+            -0.0329,
+            1.1285
+          ],
+          "crate_blocker_center_distance_m": 1.3348,
+          "crate_blocker_signed_sat_gap_m": 0.9812,
+          "go2_blocker_surface_gap_m": 0.7296,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.305,
+          "go2_xy": [
+            -0.0506,
+            0.8744
+          ],
+          "go2_z_m": 0.2402,
+          "crate_xy": [
+            -0.0329,
+            1.1284
+          ],
+          "crate_blocker_center_distance_m": 1.3348,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7293,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.405,
+          "go2_xy": [
+            -0.0503,
+            0.8743
+          ],
+          "go2_z_m": 0.2402,
+          "crate_xy": [
+            -0.0329,
+            1.1282
+          ],
+          "crate_blocker_center_distance_m": 1.3348,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.729,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.505,
+          "go2_xy": [
+            -0.0499,
+            0.8742
+          ],
+          "go2_z_m": 0.2401,
+          "crate_xy": [
+            -0.0329,
+            1.1281
+          ],
+          "crate_blocker_center_distance_m": 1.3348,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7287,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.605,
+          "go2_xy": [
+            -0.0496,
+            0.8742
+          ],
+          "go2_z_m": 0.24,
+          "crate_xy": [
+            -0.0329,
+            1.1279
+          ],
+          "crate_blocker_center_distance_m": 1.3348,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7284,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.705,
+          "go2_xy": [
+            -0.0493,
+            0.8741
+          ],
+          "go2_z_m": 0.2399,
+          "crate_xy": [
+            -0.0329,
+            1.1278
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7281,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.805,
+          "go2_xy": [
+            -0.049,
+            0.874
+          ],
+          "go2_z_m": 0.2398,
+          "crate_xy": [
+            -0.0329,
+            1.1277
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7278,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 8.905,
+          "go2_xy": [
+            -0.0487,
+            0.8739
+          ],
+          "go2_z_m": 0.2397,
+          "crate_xy": [
+            -0.0329,
+            1.1275
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7275,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.005,
+          "go2_xy": [
+            -0.0484,
+            0.8739
+          ],
+          "go2_z_m": 0.2397,
+          "crate_xy": [
+            -0.0329,
+            1.1274
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7272,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.105,
+          "go2_xy": [
+            -0.0481,
+            0.8738
+          ],
+          "go2_z_m": 0.2396,
+          "crate_xy": [
+            -0.0329,
+            1.1273
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.727,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.205,
+          "go2_xy": [
+            -0.0478,
+            0.8737
+          ],
+          "go2_z_m": 0.2396,
+          "crate_xy": [
+            -0.0329,
+            1.1271
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7267,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.305,
+          "go2_xy": [
+            -0.0475,
+            0.8737
+          ],
+          "go2_z_m": 0.2395,
+          "crate_xy": [
+            -0.0329,
+            1.127
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7265,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.405,
+          "go2_xy": [
+            -0.0473,
+            0.8736
+          ],
+          "go2_z_m": 0.2395,
+          "crate_xy": [
+            -0.0329,
+            1.1269
+          ],
+          "crate_blocker_center_distance_m": 1.3349,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7263,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.505,
+          "go2_xy": [
+            -0.0471,
+            0.8735
+          ],
+          "go2_z_m": 0.2394,
+          "crate_xy": [
+            -0.0329,
+            1.1267
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.726,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.605,
+          "go2_xy": [
+            -0.0468,
+            0.8735
+          ],
+          "go2_z_m": 0.2394,
+          "crate_xy": [
+            -0.0329,
+            1.1266
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7258,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.705,
+          "go2_xy": [
+            -0.0466,
+            0.8734
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.1265
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7257,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.805,
+          "go2_xy": [
+            -0.0464,
+            0.8733
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.1264
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7255,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 9.905,
+          "go2_xy": [
+            -0.0462,
+            0.8733
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.1262
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7253,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 10.005,
+          "go2_xy": [
+            -0.0461,
+            0.8732
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.1261
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7251,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 10.105,
+          "go2_xy": [
+            -0.0459,
+            0.8732
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.126
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.725,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 10.205,
+          "go2_xy": [
+            -0.0458,
+            0.8731
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.1259
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7249,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 10.305,
+          "go2_xy": [
+            -0.0457,
+            0.8731
+          ],
+          "go2_z_m": 0.2393,
+          "crate_xy": [
+            -0.0329,
+            1.1258
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7248,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        },
+        {
+          "sim_time_s": 10.405,
+          "go2_xy": [
+            -0.0456,
+            0.8731
+          ],
+          "go2_z_m": 0.2394,
+          "crate_xy": [
+            -0.0329,
+            1.1257
+          ],
+          "crate_blocker_center_distance_m": 1.335,
+          "crate_blocker_signed_sat_gap_m": 0.9813,
+          "go2_blocker_surface_gap_m": 0.7247,
+          "go2_crate_contact": true,
+          "go2_crate_contact_count": 1,
+          "phase": "push_actor"
+        }
+      ],
+      "events": [
+        {
+          "t": 0.0,
+          "from": "go2",
+          "topic": "event",
+          "type": "task_started",
+          "data": {
+            "task": "s5b2_clearance_push",
+            "type": "fetch"
+          }
+        },
+        {
+          "t": 0.0,
+          "from": "go2",
+          "topic": "status",
+          "type": "status_report",
+          "data": {
+            "pos": [
+              1.696,
+              4.144,
+              0.42
+            ],
+            "vel": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "task_id": "s5b2_clearance_push",
+            "task_type": "fetch"
+          }
+        },
+        {
+          "t": 2.0,
+          "from": "go2",
+          "topic": "status",
+          "type": "status_report",
+          "data": {
+            "pos": [
+              1.221,
+              3.259,
+              0.301
+            ],
+            "vel": [
+              -0.158,
+              0.512,
+              -0.231
+            ],
+            "task_id": "s5b2_clearance_push",
+            "task_type": "fetch"
+          }
+        },
+        {
+          "t": 4.0,
+          "from": "go2",
+          "topic": "status",
+          "type": "status_report",
+          "data": {
+            "pos": [
+              0.672,
+              2.276,
+              0.314
+            ],
+            "vel": [
+              -0.202,
+              0.435,
+              -0.222
+            ],
+            "task_id": "s5b2_clearance_push",
+            "task_type": "fetch"
+          }
+        },
+        {
+          "t": 4.44,
+          "from": "go2",
+          "topic": "event",
+          "type": "push_stroke_start",
+          "data": {
+            "task": "s5b2_clearance_push",
+            "box_goal_distance": 0.9,
+            "perp": 0.014,
+            "along": -1.04
+          }
+        }
+      ],
+      "wall_time_s": 17.193
+    }
+  ],
+  "summary": {
+    "completed_trials": 1,
+    "passed_trials": 0,
+    "failed_trials": 1,
+    "required_trials": 1
+  },
+  "source_sha256": {
+    "experiments/s5b2_feasible_push.py": "97d63e75aeb43ea31a6b0e7385d6d21a5fe5f758379d1af40b8c84ee5b8336d9",
+    "core/world.py": "9cc4051c5517080efb5ef7016e83c0d2feb75a15096f648eac652c561ad6d52b",
+    "core/proximity.py": "77568fe98d61f808aa1bc71cda5e6c4978be3e7fd35794fed93d9f9748182c34",
+    "core/safety.py": "43456fbc11746845782d78226702cd0da0ffbb10a409f71a8bdd41e426304773",
+    "core/replan.py": "9488a43fdda8a315612ec6a52a118015f01edad25539dbb1183bdc00665d5e45"
+  },
+  "superseded_note": "Diagnostic only: first experiment profile used a 15 cm crate and 1.55 m Go2 spawn despite the pinned cfg recording 25 cm and 1.20 m. This is retained for traceability and is not acceptance evidence."
+}

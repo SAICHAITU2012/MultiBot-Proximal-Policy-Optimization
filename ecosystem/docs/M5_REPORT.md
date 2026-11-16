@@ -5,16 +5,20 @@ team_lab changes; all work inside `ecosystem/`.
 
 ## Current status — 2026-11-16
 
-M5 is **open**. The evidence revalidation passes 15 of 16 checks; S5b's
-measured push-out gate fails. The suite now records a valid, versioned JSON
-artifact and a console transcript. No mission, safety, navigation, or robot
-controller behavior was changed for this revalidation. The `team_lab` M8
-baseline remains untouched.
+M5 is **open**. The last complete M5 acceptance run remains 15/16: the
+original S5b measured push-out gate fails. A separate, feasible push-out
+experiment has since passed five fixed seeds, but it does not replace the
+original S5b gate. The M5 runtime, safety behavior, navigation policy, and
+robot controllers were not changed. The `team_lab` M8 baseline remains
+untouched.
 
-Command from `ecosystem/`, with the `genesis` conda environment active:
-`python -u tests/test_m5.py`.
-Exit code: 1, as required for the failing S5b gate. See
-`results/m5_acceptance.json` and `results/m5_acceptance.log`.
+The last complete M5 run used `python -u tests/test_m5.py` from `ecosystem/`
+and exited 1 on the unchanged S5b gate. Its evidence is in
+`results/m5_acceptance.json` and `results/m5_acceptance.log`. The subsequent
+expected-infeasibility assertion in `tests/test_m5.py` evaluates to true
+(maximum reachable center distance 0.70 m; required center clearance 0.88 m),
+but that revised full suite has not completed, so no new M5 acceptance count
+is claimed.
 
 The M5 artifact records the portable command, ecosystem-relative working
 directory, Python version, source hashes, and any configured path-override
@@ -63,10 +67,53 @@ M5.5 values are arithmetic means over 200 calls per blocker count, with no
 warm-up, on this run. They time candidate generation only; route validation
 and simulation are excluded, so they are not end-to-end replanning latency.
 
-**M5: 15/16 checks; one failure (S5b), so M5 is not closed.** The prior
-12/12 claim and S5b push-out claim are superseded by this corrected run. M1–M3
-regression suites were not rerun in this evidence-only pass. The M4 suites
-were rerun separately; see `docs/M4_REPORT.md`.
+**M5: the last complete run passed 15/16 checks; S5b failed, so M5 is not
+closed.** The prior 12/12 claim and S5b push-out claim are superseded by this
+corrected run. The later separate S5b.2 experiment is recorded below and in
+`results/s5b2_feasible_push.json`; it is not counted in this table.
+
+## S5b.2 separate feasible push-out experiment
+
+The frozen Go2 push policy was evaluated in a separate reachable layout using
+the checkpoint's saved 0.35 m crate, 7 kg mass, 1.20 m robot/crate start
+separation, 50 Hz policy rate, and Genesis 1.4.5. The five fixed seeds
+`11, 23, 37, 53, 71` all passed the preflight and push-out completion gates.
+The crate moved 0.401–0.437 m along the planned direction; final center
+distance was 1.402–1.551 m; measured Go2/blocker surface clearance stayed
+0.358–0.649 m (required 0.22 m); continuous physical contact lasted
+0.62–1.60 s. There were no falls, robot/blocker contacts, crate/blocker
+contacts, or denied safety requests. Measured crate-footprint clearance
+increased by at least 0.050 m in every trial.
+
+This experiment's completion target is the explicit push-out gate, not the
+policy's farther 2.20 m goal: `policy_target_reached` is false in all five
+trials. The experiment demonstrates repeatable, bounded push-out in its own
+feasible fixture. It does not make the original S5b trial pass or close M5.
+The runner and full per-seed measurements are
+`experiments/s5b2_feasible_push.py` and `results/s5b2_feasible_push.json`;
+the prior 4/5 layout failure is retained separately as
+`results/s5b2_feasible_push_geometry_v1_failed.json`.
+
+## Regression status — 2026-11-16
+
+- M1: **17/17 passed** (`results/m1_regression_2026-11-16.log`).
+- M2: **21/21 passed** (`results/m2_regression_2026-11-16.log`).
+- M3: attempted against a temporary extraction of Genesis World commit
+  `1daee8d5210cdfdfb3e238c592bfabe7f7b11814`; import and scene setup reached
+  the G1 configuration loader, then failed because the configured
+  `Genesis-Humanoid/.../configs/env_args.yaml` is marked `dataless` by macOS
+  and reads as zero bytes. `load_env_args()` therefore returned `None`, and
+  the suite stopped before its acceptance checks. The original checkout was
+  not modified (`results/m3_regression_attempt_2026-11-16.log`).
+- M3-turn, M4, M4-replan, and the revised full M5 suite were not rerun after
+  that shared G1 configuration prerequisite failed. Their Genesis worlds use
+  the same frozen G1 configuration, so this environment cannot provide valid
+  results for them. M4's previously recorded suite results remain documented
+  in `docs/M4_REPORT.md`.
+
+Consequently, this is not a fresh full M1–M5 regression sign-off. The current
+5/5 push experiment and M1/M2 results are valid evidence, while M3 and the
+remaining M4/M5 reruns still need a readable G1 configuration file.
 
 ## The geometric understanding M5 corrected
 

@@ -1,0 +1,122 @@
+=== M2 acceptance: coordination under interference + disturbance recovery ===
+
+A (M2.1) — proximity monitoring
+[38;5;226m[Genesis] [17:11:19] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:11:19] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:19] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:19] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:19] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:20] [WARNING] Mesh is not watertight. Falling back to convex hull for estimating inertial properties.[0m
+[38;5;226m[Genesis] [17:11:21] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:11:21] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+  [PASS] all 6 robot pairs are monitored — ['drone-g1', 'drone-go2', 'drone-panda', 'g1-go2', 'g1-panda', 'go2-panda']
+  [PASS] vertical model: airborne drone is not a ground conflict — dz=0.64 m -> gap=inf
+
+B (M2.2) — hard constraints, prevention, resolution, deadlock
+[38;5;226m[Genesis] [17:11:32] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:11:32] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:11:32] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:11:33] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:11:33] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+  [PASS] G5 baseline mission completes with the gate active — t=10.3s
+  [PASS] baseline: no conflict, no contact, nothing blocked — blocked=0 min_gap=+0.60
+[38;5;226m[Genesis] [17:11:45] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:11:46] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:11:46] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:11:46] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:11:46] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:11:59] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:11:59] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:11:59] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:12:00] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:12:00] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+  [PASS] G2 conflict detected during the low pass (look-ahead or instantaneous) — 0 instantaneous event(s), 1 look-ahead detection(s) prevented entry
+  [PASS] G1 prohibited flight was blocked — 1 blocked request(s)
+  [PASS] G2 drone yielded and the mission still completed — t=10.4s
+  [PASS] resolution removed physical contact — min_gap gate ON +1.07 m
+  [PASS] WITHOUT the gate the same scenario makes contact — min_gap gate OFF -0.10 m, contacts=['drone-g1']
+[38;5;226m[Genesis] [17:12:13] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:12:13] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:12:13] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:12:13] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:12:14] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:12:42] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:12:43] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:12:43] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:12:43] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:12:43] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+  [PASS] G4 unresolvable conflict is reported, not silently stalled — why: timeout at stage reached, reroutes=1
+  [PASS] G1 the dog never drove into the standing G1 (no contact) — min_gap +0.05 m
+  [PASS] WITHOUT the gate the dog collides with the G1 — min_gap -0.48 m
+  [PASS] G1 enforcement is structural (blocked token cannot execute)
+
+D (M2.3/M2.4) — G1 disturbance recovery (frozen policy)
+  [PASS] G3 G1 recovers from controlled disturbances at all — 6/7 trials recovered
+  [PASS] G3 recovery is inside a measured envelope (forward <=70 N, lateral <=80 N) — forward [40.0, 60.0, 70.0], lateral [60.0, 70.0, 80.0]
+  [PASS] G1 recovery returns to nominal height (frozen policy, no retraining) — final heights [0.782, 0.783, 0.783, 0.782, 0.783, 0.783]
+  [PASS] worst recovered displacement is measured and small — 0.13 m at 70 N 0 deg, recovery 1.23 s
+
+E (M2.5) — three deterministic runs + ablation regression under constraints
+[38;5;226m[Genesis] [17:13:13] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:13:13] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:13:13] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:13:13] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:13:14] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:13:26] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:13:26] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:13:26] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:13:27] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:13:27] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:13:39] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:13:39] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:13:39] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:13:40] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:13:40] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+  [PASS] G6 three consecutive runs succeed identically — completion times [10.32, 10.32, 10.32]
+[38;5;226m[Genesis] [17:13:53] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:13:53] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:13:53] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:13:53] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:13:54] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:14:11] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:14:12] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:14:12] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:14:12] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:14:12] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:14:31] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:14:31] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:14:31] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:14:32] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:14:32] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+[38;5;226m[Genesis] [17:14:49] [WARNING] Some free joint has non-zero frictionloss, damping or armature parameters. Beware it is non-physical.[0m
+[38;5;226m[Genesis] [17:14:49] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint1`[0m
+[38;5;226m[Genesis] [17:14:49] [WARNING] (MJCF) Approximating tendon by joint actuator for `finger_joint2`[0m
+[38;5;226m[Genesis] [17:14:49] [WARNING] Neutral robot position (qpos0) exceeds joint limits.[0m
+[38;5;226m[Genesis] [17:14:50] [WARNING] Constraint solver time constant should be greater than 2*substep_dt. timeconst is changed from `0.005` to `0.01`). Decrease simulation timestep or increase timeconst to avoid altering the original value.[0m
+  [PASS] G6 all four ablations still fail with the gate active — drone:[]; go2:['CRATE_SIGHTED']; panda:['CRATE_SIGHTED', 'CRATE_REACHED']; g1:['CRATE_SIGHTED', 'CRATE_REACHED', 'PARCEL_DISPATCHED', 'STATION_FAILED']
+
+F — resource consumption
+  [PASS] peak RSS within the 16 GB budget — 0.81 GiB
+  [PASS] disk headroom still positive — 10.9 GiB
+  backend cpu | peak RSS 0.81 GiB | disk free 10.9 GiB | 21 checks in this run
+
+=== M2 PASS — 21/21 checks

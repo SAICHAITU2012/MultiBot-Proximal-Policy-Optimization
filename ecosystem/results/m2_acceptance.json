@@ -99,12 +99,12 @@
     {
       "check": "peak RSS within the 16 GB budget",
       "ok": true,
-      "detail": "1.40 GiB"
+      "detail": "0.81 GiB"
     },
     {
       "check": "disk headroom still positive",
       "ok": true,
-      "detail": "11.3 GiB"
+      "detail": "10.9 GiB"
     }
   ],
   "summary": {
@@ -135,7 +135,7 @@
     }
   },
   "resources": {
-    "peak_rss_gib": 1.4,
-    "disk_free_gib": 11.3
+    "peak_rss_gib": 0.81,
+    "disk_free_gib": 10.9
   }
 }

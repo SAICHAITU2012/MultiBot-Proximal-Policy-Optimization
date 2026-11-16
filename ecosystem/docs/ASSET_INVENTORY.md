@@ -32,7 +32,7 @@ Panda 50 Hz; the G1 stands at 50 Hz. See `docs/M1_REPORT.md` and
 | Asset | Robot / capability | obs → act | Rate | md5 | Status |
 |---|---|---|---|---|---|
 | `logs/go2-nav/model_800.pt` | Go2 locomotion (velocity tracking) | 45 → 12 | 50 Hz | `7100a54f3313` | ✅ mission-verified |
-| `logs/go2-push-s5/model_800.pt` | Go2 crate push (7 kg, 15 cm) | 45 → 12 | 20 Hz | `c56f741011b2` | ✅ 31/32 + 30/32 first-life, 0 true falls |
+| `logs/go2-push-s5/model_800.pt` | Go2 crate push (7 kg; saved config: 25 cm, M8 mission: 15 cm) | 49 → 12 | 50 Hz | `c56f741011b2` | ✅ 31/32 + 30/32 first-life, 0 true falls |
 | `logs/drone-hover-s4/model_1600.pt` | Crazyflie hover / 3-D position | pos-err → 4 motors | 100 Hz | `d03cf15fa1fa` | ✅ recon 2/2 per mission |
 | `logs/grasp-panda_rl/model_1500.pt` | Panda reach | reach obs → 7 joint targets + gripper | 100 Hz | `0e55df0cadbe` | ✅ picked = 1 |
 | `logs/panda-push-s1/model_900.pt` | Panda reach + press + push (P1b) | push obs → arm targets | 100 Hz | `1cb4a6752e2d` | ✅ in-mission |

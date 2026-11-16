@@ -28,6 +28,7 @@ import torch  # noqa: E402
 
 from core.world import SCENE_DT, World  # noqa: E402
 from core.replan import plan_ladder, pick_route_ladder  # noqa: E402
+from core.proximity import RADIUS, SAFE_GAP  # noqa: E402
 import missions.relay as relay  # noqa: E402
 
 _results = []
@@ -177,6 +178,19 @@ def main():
     # move the crate clear. A center distance >=0.50 m is a conservative
     # no-overlap threshold (sum of the circumscribed footprint radii).
     blocker_xy = (CRATE[0] + 0.10, CRATE[1])
+    # Before running the unchanged mission, formalize why this fixture cannot
+    # satisfy both the 0.60 m crate-reach condition and the 0.88 m Go2/column
+    # center-clearance condition. Even the farthest point in the reach disk is
+    # only 0.70 m from the column, so no safe reachable pose exists.
+    s5b_reach_m = 0.60
+    s5b_safe_center_m = RADIUS["go2"] + 0.30 + SAFE_GAP
+    s5b_crate_column_m = math.dist(CRATE, blocker_xy)
+    s5b_max_reachable_column_m = s5b_crate_column_m + s5b_reach_m
+    check("S5b original fixture is geometrically infeasible under the safety envelope",
+          s5b_max_reachable_column_m < s5b_safe_center_m,
+          f"max_reachable_center_distance={s5b_max_reachable_column_m:.3f}m "
+          f"required={s5b_safe_center_m:.3f}m deficit="
+          f"{s5b_safe_center_m - s5b_max_reachable_column_m:.3f}m")
     w5b = World(g1_xy=(9.9, 9.9), extra_blockers=[blocker_xy])
     _place(w5b)
     crate_start = w5b.crate_xy()

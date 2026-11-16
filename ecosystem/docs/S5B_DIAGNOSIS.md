@@ -2,8 +2,9 @@
 
 **Date:** 2026-11-16
 
-**Status:** read-only diagnosis; M5 remains open. No mission, planner,
-safety, or controller behavior was changed for this review.
+**Status:** original S5b diagnosis preserved; a separate feasible push-out
+experiment is now recorded below. M5 remains open. No mission, planner,
+safety, or controller behavior was changed.
 
 ## Finding
 
@@ -62,6 +63,40 @@ The reported `safety.executed: 0` counts calls successfully recorded through
 site, so this value does not count simulator motion commands. The crate and
 Go2 path measurements show that the simulation did move.
 
+## Separate follow-up result: S5b.2 feasible push-out
+
+The original S5b fixture and its strict acceptance gate remain unchanged. A
+separate experiment used the hash-pinned Go2 push checkpoint in a layout with
+a reachable west-side contact pose and an eastward push that increases
+blocker clearance. It matches the checkpoint's saved crate size (0.35 m),
+height (0.25 m), mass (7 kg), 1.20 m robot/crate spawn separation, and 50 Hz
+policy rate. The policy weights and runtime safety checks were not changed.
+
+All five fixed seeds (`11, 23, 37, 53, 71`) passed. Across the trials:
+
+- crate displacement along the push direction: **0.401–0.437 m**;
+- final crate/column center distance: **1.402–1.551 m**;
+- Go2/column minimum surface gap: **0.358–0.649 m**, above the 0.22 m
+  requirement;
+- measured continuous Go2/crate contact: **0.62–1.60 s**;
+- falls, Go2/column contacts, crate/column contacts, and safety denials: **0**;
+- crate-footprint edge clearance gain: **at least 0.050 m** in every trial.
+
+The completion label means the experiment-specific push-out gate passed. The
+policy's 2.20 m target was not reached in any trial (`policy_target_reached`
+is false throughout). This is evidence for the separate feasible push-out
+capability, not a successful run of original S5b and not M5 closure. The
+configuration, source and checkpoint hashes, per-seed traces, and criteria
+are in `results/s5b2_feasible_push.json`; the earlier 4/5 fixture attempt is
+preserved in `results/s5b2_feasible_push_geometry_v1_failed.json`.
+
+The added expected-infeasibility arithmetic for original S5b evaluates to a
+0.18 m deficit (0.70 m maximum reachable center distance versus 0.88 m
+required). The revised full M5 suite has not completed because its G1
+`env_args.yaml` dependency is marked `dataless` on macOS and reads as zero
+bytes. The standalone geometry evaluation passes, but no new full M5
+acceptance result is claimed.
+
 ## Capability boundary
 
 The ecosystem mission navigates the Go2 toward the crate center. It loads the
@@ -71,13 +106,13 @@ Go2 push controller from `team_lab`. The current run therefore tests the
 navigation coordinator under this geometry, not a dedicated manipulation
 controller.
 
-## Candidate follow-up experiments
+## Remaining follow-up work
 
 | Experiment | Measurable acceptance criteria |
 |---|---|
-| Keep the 0.10 m overlap as an infeasible-start case | A preflight check reports that no safe reachable pose exists before robot motion; the mission aborts with an explicit infeasible-geometry reason and never reports `CRATE_REACHED` or push success. |
+| Original S5b infeasible-start semantics | Keep the exact 0.10 m fixture and strict push-out gate. The geometric assertion is now present in `tests/test_m5.py`; complete a full M5 rerun when the frozen G1 config is readable. If runtime later gains an infeasibility verdict, test that it occurs before motion and never reports `CRATE_REACHED` or push success. |
 | Test safe navigation to an adjacent crate | Use non-overlapping footprints and a fixture with a non-empty intersection between the 0.60 m crate-reach region and the region at least 0.88 m from the column. For axis-aligned 0.35 m squares, start with at least 0.40 m center separation. Require mission completion, `CRATE_REACHED`, zero Go2/column contact, and recorded minimum clearance. This is a navigation test, not a push-out claim. |
-| Test actual push-out | Represent crate geometry and crate/column contact; choose a blocker placement and push direction with a verified safe contact pose and a collision-free path to it; use an explicit push controller. Keep the existing displacement and final-distance gates. For five fixed-seed trials, require 5/5 mission completions, at least 0.40 m crate displacement, at least 0.50 m final center distance, zero Go2/column contact, and logged crate/column footprint clearance and object-contact events. |
+| Extend push-out distance and robustness | The five-seed feasible push-out gate passed. To claim the full saved policy goal or stronger manipulation capability, define a separate target-distance gate and test more seeds and initial crate poses; keep original S5b separate. |
 | Improve route diagnosis | Log each candidate's rejected segment, blocker, and clearance. Compare the eight-candidate ladder result against an independent feasibility check so candidate exhaustion is never reported as a proof of general geometric impossibility. |
 
 The next experiment should select one of these task meanings before changing

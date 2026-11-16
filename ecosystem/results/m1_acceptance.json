@@ -79,19 +79,19 @@
     {
       "check": "peak RSS under the 16 GB machine budget",
       "ok": true,
-      "detail": "2.02 GiB"
+      "detail": "1.12 GiB"
     },
     {
       "check": "disk headroom still positive",
       "ok": true,
-      "detail": "17.2 GiB free"
+      "detail": "13.2 GiB free"
     }
   ],
-  "build_s": 14.4,
+  "build_s": 15.3,
   "sim_time": 15.1,
-  "sim_speed_x": 8.6,
-  "peak_rss_gib": 2.02,
-  "disk_free_gib": 17.2,
+  "sim_speed_x": 9.0,
+  "peak_rss_gib": 1.12,
+  "disk_free_gib": 13.2,
   "mission": {
     "ok": true,
     "t": 15.11,

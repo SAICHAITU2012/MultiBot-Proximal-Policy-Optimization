@@ -19,10 +19,10 @@
     {
       "id": "go2-push-s5-800", "robot": "unitree_go2", "stack": "A", "capability": "crate_push_7kg_15cm",
       "path": "team_lab/logs/go2-push-s5/model_800.pt", "md5_12": "c56f741011b2", "bytes": 4595947,
-      "obs_dim": 45, "act_dim": 12, "control_hz": 20, "cfg": "team_lab/logs/go2-push-s5/cfgs.pkl",
+      "obs_dim": 49, "act_dim": 12, "control_hz": 50, "cfg": "team_lab/logs/go2-push-s5/cfgs.pkl",
       "evaluated": {"first_life_pushed_ge_0.15m": ["31/32", "30/32"], "true_falls": 0,
                     "first_life_disp_mean_m": [1.90, 1.42], "verdict": "verified — the mission policy"},
-      "notes": "Pinned. Do NOT substitute model_1000.pt (unevaluated)."
+      "notes": "Pinned. Saved cfgs.pkl records 0.35x0.35x0.25 m training crate, 7 kg, 1.20 m initial robot-crate spacing and 2.20 m configured goal distance; M8 mission used 0.15 m crates. Do NOT substitute model_1000.pt (unevaluated)."
     },
     {
       "id": "go2-push-s5-1000", "robot": "unitree_go2", "stack": "A", "capability": "crate_push_7kg_15cm",
